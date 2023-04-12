@@ -22,6 +22,12 @@ class ButtonRect extends Button {
       hovering = false;
     }
   }
+  
+  // updates the position of the button
+  void changePosition(int _x, int _y) {
+    x = _x;
+    y = _y;
+  }
 
   // draws the button shape
   void drawButton() {
