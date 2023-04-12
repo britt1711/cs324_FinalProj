@@ -23,7 +23,7 @@ color lightGray = #b7b9b3;
 color cEnemy = #f3959a; // color used for enemy
 color cHero = #fee293; // color used for hero
 color[] colors = {medBlue, lightBlue, darkBlue};
-
+//jonathan test commit
 // initialize variable for font
 PFont font;
 // set font sizes for different headers
