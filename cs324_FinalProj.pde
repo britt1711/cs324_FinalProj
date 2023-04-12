@@ -2,9 +2,9 @@
 // Assignment: Final Project
 // Date: 4/16/2023
 /* File Description: 
-This program runs our game "Don't get Caught!", where the user has to 
+This program runs our game "Capture the Coin!", where the user has to 
 navigate around enemies while collecting points. The user advances to
-new levels where the enemies and points move faster, resulting in the
+new levels where the enemies move faster, resulting in the
 user having to move faster to not get caught by enemies.
 */
 
@@ -34,7 +34,7 @@ int h3 = 18; // header 3 size
 int h4 = 15; // header 4 size
 
 // define order of screens user can be on
-String[] page = {"Welcome", "Background", "UserName", "Instructions", "LevelIntro", "Game", "Summary"};
+String[] page = {"Welcome", "Background", "Instructions", "LevelIntro", "Game", "Summary", "UserName", "HighScores"};
 String currPage; // variable for current page displayed to user
 
 // variable to determine if game is paused or not
@@ -172,14 +172,14 @@ void displayWelcome() {
   fill(darkBlue);
   textSize(h0);
   textAlign(CENTER,BOTTOM);
-  text("Don't Get Caught!",width/2,350);
+  text("Capture The Coin!",width/2,350);
   
   // display tagline of game
   fill(medBlue);
   textSize(h2);
   textAlign(CENTER,TOP);
   rectMode(CENTER);
-  text("the game of evading enemies",width/2,400,800,80);
+  text("the game of getting rich",width/2,400,800,80);
   
   // display instructions to move to next page
   fill(gray);
@@ -298,28 +298,29 @@ void displayInstructions() {
   int row1 = 230;
   float space = (h3 + (2.5*m));
   
+  // TODO: change the game objects to the ones we will be using
   // draw game objects
   textAlign(LEFT,CENTER);
   // user object
-  Player p = new Player(col1, row1+space, 15);
-  p.display();
+  // TODO: create and display the enemy object here. write it around the position (col1, row1+space)
+  
   fill(medBlue);
   textSize(h3);
   text("You, the player",col1+space,row1+space);
   // enemy object
-  Enemy e = new Enemy(col1, row1+(2*space), 15, 0);
-  e.display();
+  // TODO: create and display the enemy object here. write it around the position (col1, row1+(2*space))
+  
   textAlign(LEFT,CENTER);
   fill(medBlue);
   textSize(h3);
-  text("Guards, be sure to avoid them!",col1+space,row1+(2*space));
-  // hero object
-  Hero h = new Hero(col1, row1+(3*space), 15, 0, 0);
-  h.display();
+  text("Bugs, be sure to avoid them!",col1+space,row1+(2*space));
+  // coin object
+  // TODO: create and display the coin object here. write it around the position (col1, row1+(3*space))
+  
   textAlign(LEFT,CENTER);
   fill(medBlue);
   textSize(h3);
-  text("Valuables, capture by moving player over them!",col1+space,row1+(3*space));
+  text("Coins, collect by moving player over them!",col1+space,row1+(3*space));
   
   // display key strokes to move
   fill(medBlue);
@@ -374,7 +375,7 @@ void displayInstructions() {
   textAlign(CENTER,TOP);
   rectMode(CENTER);
   // allow text to blink
-  blinkText("Are you ready? Press any key to begin infiltration.",width/2,height-50,800,80, textOff, textOn);
+  blinkText("Are you ready? Press any key to begin your venture outside.",width/2,height-50,800,80, textOff, textOn);
 }
 
 // describes and draws the Level Introduction page
@@ -482,17 +483,14 @@ void drawUserMenu() {
   fill(white);
   textSize(h4);
   // level
-  text("Current Level", width/5, 30);
-  rect(width/5, 60, 150, 50, 10);
-  // lives left
-  text("# Lives Remaining", 2*(width/5), 30);
-  rect(2*(width/5), 60, 150, 50, 10);
-  // points gained
-  text("Value Collected", 3*(width/5), 30);
-  rect(3*(width/5), 60, 150, 50, 10);
+  text("Current Level", width/4, 30);
+  rect(width/4, 60, 150, 50, 10);
+  // coins gained
+  text("Value Collected", 2*(width/4), 30);
+  rect(2*(width/4), 60, 150, 50, 10);
   // time left in level
-  text("Time to Next Level", 4*(width/5), 30);
-  rect(4*(width/5), 60, 165, 50, 10);
+  text("Time to Next Level", 3*(width/4), 30);
+  rect(3*(width/4), 60, 165, 50, 10);
   
   // add user information
   textAlign(CENTER,CENTER);
@@ -500,14 +498,14 @@ void drawUserMenu() {
   fill(medBlue);
   // TODO: after game class is done, update lives displayed and lives remaining 
   // TODO: (aka delete next 3 lines and uncomment the 3 lines following that)
-  text("#",width/5,55); 
-  text("#",2*(width/5),55); 
-  text("#",3*(width/5),55); 
+  text("#",width/4,55); 
+  text("#",2*(width/4),55); 
   if (playCountdown.secondsLeft() == 1) {
-    text(playCountdown.secondsLeft() + " sec",4*(width/5),55);
+    text(playCountdown.secondsLeft() + " sec",3*(width/4),55);
   } else {
-    text(playCountdown.secondsLeft() + " secs",4*(width/5),55);
+    text(playCountdown.secondsLeft() + " secs",3*(width/4),55);
   }
+  // TODO: example code to be called once game class is completed
   //text(game.getLevel(),width/5,55);
   //text(game.user.getLivesLeft(),2*(width/5),55);
   //text(game.user.getPoints(),3*(width/5),55;)
@@ -574,50 +572,62 @@ void arrow() {
 }
 
 void keyPressed() {
+  // CASE: user is on welcome page
   // if on the welcome page, any key allows user to move to next page, which is the background
   if (currPage == page[0] && keyPressed) {
     currPage = page[1];
   }
-  // if on the background page, any key allows user to move to next page, which is the user name prompt
+  // CASE: user is on the background page
+  // if on the background page, any key allows user to move to next page, which is the game instructions
   else if (currPage == page[1] && keyPressed) {
     currPage = page[2];
   }
-  // if on the user name prompt...
-  else if (currPage == page[2]) {
-    // enter allows user to move to next page, which is the game instructions
-    if (key == '\n') {
-      // save the user name
-      savedUserName = typing;
-      typing = "";
-      currPage = page[3];
-    }
-    // other keys go into writing out the user's username
-    // delete last character typed if user presses BACKSPACE
-    } else if (key == BACKSPACE) {
-        // can only remove a character typing variable is populated
-        if (typing != "") {
-          typing = typing.substring(0, typing.length()-1);
-      }
-    // ignore shift key if pressed
-    } else if (key == CODED && keyCode == SHIFT) {
-    // add any other key pressed to the typing variable
-    } else {
-      typing += key;
-    }
-  }
+  // CASE: user is on the game instructions page
   // if on the game instructions page, any key allows user to move to next page, which is the level intro
-  else if (currPage == page[3] && keyPressed) {
-    currPage = page[4];
+  else if (currPage == page[2] && keyPressed) {
+    currPage = page[3];
     // TODO: instantiate a new game
     game = new Game();
     // reset the level countdown
     levelCountdown.reset(millis());
   }
-  // if on the summary page, any key allows user to go back to home page
-  else if (currPage == page[6] && keyPressed) {
-    currPage = page[0];
+  // CASE: user is on the summary page
+  // if on the summary page, user has options on what to do 
+  else if (currPage == page[5] && keyPressed) {
+    // if user presses 'ENTER', move to next page, which is the enter user name
+    if (key == '\n') {
+      currPage = page[6];
+    }
+    // if user presses 'SPACE', go back to the home page
+    else if (key == ' ') {
+      currPage = page[0];
+    }
   }
 }
+
+//// if on the user name prompt...
+//  else if (currPage == page[2]) {
+//    // enter allows user to move to next page, which is the game instructions
+//    if (key == '\n') {
+//      // save the user name
+//      savedUserName = typing;
+//      typing = "";
+//      currPage = page[3];
+//    }
+//    // other keys go into writing out the user's username
+//    // delete last character typed if user presses BACKSPACE
+//    } else if (key == BACKSPACE) {
+//        // can only remove a character typing variable is populated
+//        if (typing != "") {
+//          typing = typing.substring(0, typing.length()-1);
+//      }
+//    // ignore shift key if pressed
+//    } else if (key == CODED && keyCode == SHIFT) {
+//    // add any other key pressed to the typing variable
+//    } else {
+//      typing += key;
+//    }
+//  }
 
 // action on buttons occur when mouse is pressed over the button
 void mousePressed() {
