@@ -71,9 +71,15 @@ ButtonRect bEnd;
 String typing = ""; // defines text being typed
 String savedUserName = ""; // defines saved text
 
+// initialize PrintWriter to write scoreboard
+PrintWriter scoreboard;
+
 void setup() {
   // set canvas size
   size(1000,800);
+  
+  // create a new file in the sketch directory
+  scoreboard = createWriter("scoreboard.txt"); 
   
   // set font for the program
   font = createFont("LemonMilk-Regular.otf", h4); 
@@ -495,7 +501,38 @@ void displayScoreboard() {
   textAlign(CENTER,BOTTOM);
   text("Scoreboard",width/2,150);
   
+  // define columns to keep track of text placement
+  int col1 = width/2-300;
+  int col2 = width/2;
+  int col3 = width/2+300;
+  // define rows to keep track of text placement
+  int row = 240;
+  
+  // display subheaders
+  fill(medBlue);
+  textSize(h2);
+  textAlign(CENTER,BOTTOM);
+  text("Place",col1,row);
+  text("Username",col2,row);
+  text("Score",col3,row);
+  
+  String[] places = {"1st", "2nd", "3rd", "4th", "5th"};
+  
   //TODO: write out the scoreboard text to this page
+  // display the top 5 scores to the scoreboard
+  fill(medBlue);
+  textSize(h3);
+  textAlign(CENTER,BOTTOM);
+  IntDict scores = readScoreboardTextFile();
+  // get the usernames and scores in individual lists
+  String[] k = scores.keyArray();
+  int[] v = scores.valueArray();
+  for (int i=0; i<min(scores.size(), 5); i++) {
+    row += 50;
+    text(places[i], col1, row);
+    text(k[i], col2, row);
+    text(v[i], col3, row);
+  }
   
   // display instructions to move to home page
   fill(gray);
@@ -503,6 +540,21 @@ void displayScoreboard() {
   textAlign(CENTER,TOP);
   // allow text to blink
   blinkText("Press 'TAB' to return to home page.",width/2,height-50,800,80, textOff, textOn);
+}
+
+// function will read the scoreboard text file
+IntDict readScoreboardTextFile() {
+  // read in the scoreboard text file
+  String[] lines = loadStrings("scoreboard.txt");
+  // initialize list to hold username and score as a dictionary
+  IntDict scores = new IntDict();
+  for (int i=0; i < lines.length; i++) {
+    String[] record = split(lines[i], '\t');
+    scores.set(record[0], parseInt(record[1]));
+  }
+  // sort the dictionary in descending order
+  scores.sortValuesReverse();
+  return scores;
 }
 
 // draws the game menu
@@ -679,14 +731,20 @@ void keyPressed() {
   else if (currPage == page[6]) {
     // if user presses 'TAB', go back to the home page
     if (key == TAB) {
+      typing = "";
       currPage = page[0];
     }
     // if user presses 'ENTER' button, save the username
     else if (key == '\n') {
-      // save the user name
+      // save the user names
       savedUserName = typing;
       typing = "";
-      currPage = page[3];
+      // move to next page
+      currPage = page[7];
+      // save the username to the scoreboard file
+      // TODO: update user's score to this
+      scoreboard.println(savedUserName + "\t" + "SCORE #");
+      scoreboard.flush();
     }
     // other keys go into writing out the user's username
     // delete last character typed if user presses BACKSPACE
