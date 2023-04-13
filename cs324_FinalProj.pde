@@ -137,6 +137,7 @@ void draw() {
     // update play countdown
     playCountdown.checkActivation(millis());
     
+    // CASE: game is paused
     if (isPaused) {
       // draw the box to hold the "paused" message
       rectMode(CENTER);
@@ -148,9 +149,13 @@ void draw() {
       textSize(h2);
       textAlign(CENTER,CENTER);
       text("Game is Paused",width/2, height/2, width/3, height/3);
-    } else {
+    } 
+    // CASE: game is playing
+    else {
+      // TODO: this may be able to be changed with game.display();
       displayLevel();
     }
+    
     // draw user menu that displays user information
     drawUserMenu();
     // draw menu options for user to pause/continue, restart, or end and go back to welcome page
@@ -158,16 +163,17 @@ void draw() {
     
     // if playCountdown is 0, then move to next page
     if (playCountdown.checkActivation(millis())) {
-      // TODO: delete below line and uncomment line after
+      // TODO: delete below line and uncomment lines after
       currPage = page[5];
       /*
-      // have not made it through all 10 levels yet
-      if (game.getLevel() < 10) {
-        game.nextLevel();
-        playCountdown.reset();
+      // CASE: player has not made it through all levels yet
+      if (!game.isOnLastLevel()) {
+        // move to next level and restart play countdown clock
+        game.moveToNextLevel();
+        playCountdown.reset(millis());
       } 
-      // finished all levels bc at level 10, move to summary page
-      else if {
+      // CASE: finished all levels, move to summary page
+      else {
         currPage = page[5];
       }
       */
@@ -445,10 +451,42 @@ void displaySummary() {
   textAlign(CENTER,BOTTOM);
   text("Game Summary",width/2,150);
   
-  // TODO: write out game summary after level and game classes are done here
+  // display comment on whether user won or lost
+  fill(medBlue);
+  textSize(h3);
+  textAlign(CENTER,TOP);
+  rectMode(CENTER);
+  if (game.isPlayerAlive()) {
+    text("Oh no :( Looks like you died trying to collect coins.",width/2,240,800,80);
+  }
+  else {
+    text("Congrats on venturing out and getting back safely!",width/2,240,800,80);
+  }
+
+  // define columns to keep track of text placement
+  int col1 = width/2-300;
+  int col2 = width/2;
+  int col3 = width/2+300;
+  // define rows to keep track of text placement
+  int row = 280;
+  
+  // display subheaders
+  fill(medBlue);
+  textSize(h2);
+  textAlign(CENTER,BOTTOM);
+  text("Total Coins Collected",col1,row);
+  text("Lives Left",col2,row);
+  text("Score",col3,row);
   
   
-  
+  // get and display player stats
+  int[] playerStats = game.getPlayerStats();
+  fill(medBlue);
+  textSize(h3);
+  textAlign(CENTER,BOTTOM);
+  text(playerStats[0], col1, row+50);
+  text(playerStats[1], col2, row+50);
+  text(game.getPlayerScore(), col3, row+50);
   
   // display instructions to move to next page, which is the scoreboard, or back to the home page
   fill(gray);
@@ -742,8 +780,9 @@ void keyPressed() {
       // move to next page
       currPage = page[7];
       // save the username to the scoreboard file
-      // TODO: update user's score to this
+      // TODO: delete next line and uncomment one following it to display true score
       scoreboard.println(savedUserName + "\t" + "SCORE #");
+      //scoreboard.println(savedUserName + "\t" + game.getPlayerScore());
       scoreboard.flush();
     }
     // other keys go into writing out the user's username
