@@ -2,9 +2,9 @@
 // Assignment: Final Project
 // Date: 4/16/2023
 /* File Description: 
-This program runs our game "Don't get Caught!", where the user has to 
+This program runs our game "Capture the Coin!", where the user has to 
 navigate around enemies while collecting points. The user advances to
-new levels where the enemies and points move faster, resulting in the
+new levels where the enemies move faster, resulting in the
 user having to move faster to not get caught by enemies.
 */
 
@@ -34,7 +34,7 @@ int h3 = 18; // header 3 size
 int h4 = 15; // header 4 size
 
 // define order of screens user can be on
-String[] page = {"Welcome", "Background", "UserName", "Instructions", "LevelIntro", "Game", "Summary"};
+String[] page = {"Welcome", "Background", "Instructions", "LevelIntro", "Game", "Summary", "UserName", "Scoreboard"};
 String currPage; // variable for current page displayed to user
 
 // variable to determine if game is paused or not
@@ -71,9 +71,15 @@ ButtonRect bEnd;
 String typing = ""; // defines text being typed
 String savedUserName = ""; // defines saved text
 
+// initialize PrintWriter to write scoreboard
+PrintWriter scoreboard;
+
 void setup() {
   // set canvas size
   size(1000,800);
+  
+  // create a new file in the sketch directory
+  scoreboard = createWriter("scoreboard.txt"); 
   
   // set font for the program
   font = createFont("LemonMilk-Regular.otf", h4); 
@@ -107,24 +113,24 @@ void setup() {
 }
 
 void draw() {
-  // display if on Welcome 
+  // CASE: on welcome page
   if (currPage == page[0]) {
     displayWelcome();
   } 
-  // display if on Game Background page
+  // CASE: on background page page
   else if (currPage == page[1]) {
     displayBackground();
   }
-  // display if on Game Instructions page
+  // CASE: on game instructions page
   else if (currPage == page[2]) {
     displayInstructions();
   }
-  // display if on a Level Introduction page
+  // CASE: on level intro page
   else if (currPage == page[3]) {
     displayLevelIntroduction();
     isPaused = false;
   }
-  // display if on the Game page
+  // CASE: on the game page
   else if (currPage == page[4]) {
     
     //println("Active =", playCountdown.isRunning());
@@ -132,7 +138,16 @@ void draw() {
     playCountdown.checkActivation(millis());
     
     if (isPaused) {
-      // pause the game play and display a message over the screen that the game is paused
+      // draw the box to hold the "paused" message
+      rectMode(CENTER);
+      fill(lightBlue);
+      stroke(darkBlue);
+      rect(width/2, height/2, width/3, height/3);
+      // display "game is paused" text
+      fill(darkBlue);
+      textSize(h2);
+      textAlign(CENTER,CENTER);
+      text("Game is Paused",width/2, height/2, width/3, height/3);
     } else {
       displayLevel();
     }
@@ -158,9 +173,17 @@ void draw() {
       */
     }
   }
-  // display if has won/lost the game - shows the summary page
+  // CASE: on the game summary page, which occurs after all levels have been played
   else if (currPage == page[5]) {
     displaySummary();
+  }
+  // CASE: on the create username page
+  else if (currPage == page[6]) {
+    displayCreateUsername();
+  }
+  // CASE: on the scoreboard page
+  else if (currPage == page[7]) {
+    displayScoreboard();
   }
 }
 
@@ -172,14 +195,14 @@ void displayWelcome() {
   fill(darkBlue);
   textSize(h0);
   textAlign(CENTER,BOTTOM);
-  text("Don't Get Caught!",width/2,350);
+  text("Capture The Coin!",width/2,350);
   
   // display tagline of game
   fill(medBlue);
   textSize(h2);
   textAlign(CENTER,TOP);
   rectMode(CENTER);
-  text("the game of evading enemies",width/2,400,800,80);
+  text("the game of getting rich",width/2,400,800,80);
   
   // display instructions to move to next page
   fill(gray);
@@ -271,11 +294,6 @@ void writeBackgroundStory() {
   wrap = false;
 }
 
-// page prompts the user to enter a username
-void displayGetUserName() {
-
-}
-
 // describes and draws the game instruction page
 void displayInstructions() {
   background(white);
@@ -298,28 +316,29 @@ void displayInstructions() {
   int row1 = 230;
   float space = (h3 + (2.5*m));
   
+  // TODO: change the game objects to the ones we will be using
   // draw game objects
   textAlign(LEFT,CENTER);
   // user object
-  Player p = new Player(col1, row1+space, 15);
-  p.display();
+  // TODO: create and display the enemy object here. write it around the position (col1, row1+space)
+  
   fill(medBlue);
   textSize(h3);
   text("You, the player",col1+space,row1+space);
   // enemy object
-  Enemy e = new Enemy(col1, row1+(2*space), 15, 0);
-  e.display();
+  // TODO: create and display the enemy object here. write it around the position (col1, row1+(2*space))
+  
   textAlign(LEFT,CENTER);
   fill(medBlue);
   textSize(h3);
-  text("Guards, be sure to avoid them!",col1+space,row1+(2*space));
-  // hero object
-  Hero h = new Hero(col1, row1+(3*space), 15, 0, 0);
-  h.display();
+  text("Bugs, be sure to avoid them!",col1+space,row1+(2*space));
+  // coin object
+  // TODO: create and display the coin object here. write it around the position (col1, row1+(3*space))
+  
   textAlign(LEFT,CENTER);
   fill(medBlue);
   textSize(h3);
-  text("Valuables, capture by moving player over them!",col1+space,row1+(3*space));
+  text("Coins, collect by moving player over them!",col1+space,row1+(3*space));
   
   // display key strokes to move
   fill(medBlue);
@@ -374,7 +393,7 @@ void displayInstructions() {
   textAlign(CENTER,TOP);
   rectMode(CENTER);
   // allow text to blink
-  blinkText("Are you ready? Press any key to begin infiltration.",width/2,height-50,800,80, textOff, textOn);
+  blinkText("Are you ready? Press any key to begin your venture outside.",width/2,height-50,800,80, textOff, textOn);
 }
 
 // describes and draws the Level Introduction page
@@ -431,12 +450,111 @@ void displaySummary() {
   
   
   
-  // display instructions to move to next page
+  // display instructions to move to next page, which is the scoreboard, or back to the home page
   fill(gray);
   textSize(h4);
   textAlign(CENTER,TOP);
   // allow text to blink
-  blinkText("Press any key to return to home page.",width/2,height-50,800,80, textOff, textOn);
+  blinkText("Press 'TAB' to return to home page or 'ENTER' to view scoreboard.",width/2,height-50,800,80, textOff, textOn);
+}
+
+// describes and draws out the UserName page, which prompts user to choose a username and save their score
+void displayCreateUsername() {
+  background(white);
+  // display header
+  fill(darkBlue);
+  textSize(h1);
+  textAlign(CENTER,BOTTOM);
+  text("Create a Username",width/2,150);
+  
+  // display instructions for username
+  fill(medBlue);
+  textSize(h3);
+  textAlign(CENTER,TOP);
+  rectMode(CENTER);
+  text("Make it creative! You can only use 20 characters max.",width/2,240,800,80);
+  
+  // draw the line that shows under the username being typed
+  stroke(gray);
+  line(width/2-330, height/2, width/2+330, height/2);
+  
+  // display the typing text
+  textAlign(CENTER, BOTTOM);
+  textSize(h2);
+  fill(darkBlue);
+  text(typing,width/2,height/2);
+  
+  // display instructions to move to save username or go back to home page
+  fill(gray);
+  textSize(h4);
+  textAlign(CENTER,TOP);
+  // allow text to blink
+  blinkText("Press 'ENTER' to save username 'TAB' to return to home page.",width/2,height-50,800,80, textOff, textOn);
+}
+
+// describes and draws out the Scoreboard page
+void displayScoreboard() {
+  background(white);
+  // display header
+  fill(darkBlue);
+  textSize(h1);
+  textAlign(CENTER,BOTTOM);
+  text("Scoreboard",width/2,150);
+  
+  // define columns to keep track of text placement
+  int col1 = width/2-300;
+  int col2 = width/2;
+  int col3 = width/2+300;
+  // define rows to keep track of text placement
+  int row = 240;
+  
+  // display subheaders
+  fill(medBlue);
+  textSize(h2);
+  textAlign(CENTER,BOTTOM);
+  text("Place",col1,row);
+  text("Username",col2,row);
+  text("Score",col3,row);
+  
+  String[] places = {"1st", "2nd", "3rd", "4th", "5th"};
+  
+  //TODO: write out the scoreboard text to this page
+  // display the top 5 scores to the scoreboard
+  fill(medBlue);
+  textSize(h3);
+  textAlign(CENTER,BOTTOM);
+  IntDict scores = readScoreboardTextFile();
+  // get the usernames and scores in individual lists
+  String[] k = scores.keyArray();
+  int[] v = scores.valueArray();
+  for (int i=0; i<min(scores.size(), 5); i++) {
+    row += 50;
+    text(places[i], col1, row);
+    text(k[i], col2, row);
+    text(v[i], col3, row);
+  }
+  
+  // display instructions to move to home page
+  fill(gray);
+  textSize(h4);
+  textAlign(CENTER,TOP);
+  // allow text to blink
+  blinkText("Press 'TAB' to return to home page.",width/2,height-50,800,80, textOff, textOn);
+}
+
+// function will read the scoreboard text file
+IntDict readScoreboardTextFile() {
+  // read in the scoreboard text file
+  String[] lines = loadStrings("scoreboard.txt");
+  // initialize list to hold username and score as a dictionary
+  IntDict scores = new IntDict();
+  for (int i=0; i < lines.length; i++) {
+    String[] record = split(lines[i], '\t');
+    scores.set(record[0], parseInt(record[1]));
+  }
+  // sort the dictionary in descending order
+  scores.sortValuesReverse();
+  return scores;
 }
 
 // draws the game menu
@@ -462,6 +580,7 @@ void drawOptionsMenu() {
   bRestart.update(mouseX, mouseY);
   bRestart.display();
   // button to go back to welcome page
+  bEnd.changePosition((3*width/4), height-50);
   bEnd.update(mouseX, mouseY);
   bEnd.display();
 }
@@ -482,17 +601,14 @@ void drawUserMenu() {
   fill(white);
   textSize(h4);
   // level
-  text("Current Level", width/5, 30);
-  rect(width/5, 60, 150, 50, 10);
-  // lives left
-  text("# Lives Remaining", 2*(width/5), 30);
-  rect(2*(width/5), 60, 150, 50, 10);
-  // points gained
-  text("Value Collected", 3*(width/5), 30);
-  rect(3*(width/5), 60, 150, 50, 10);
+  text("Current Level", width/4, 30);
+  rect(width/4, 60, 150, 50, 10);
+  // coins gained
+  text("Value Collected", 2*(width/4), 30);
+  rect(2*(width/4), 60, 150, 50, 10);
   // time left in level
-  text("Time to Next Level", 4*(width/5), 30);
-  rect(4*(width/5), 60, 165, 50, 10);
+  text("Time to Next Level", 3*(width/4), 30);
+  rect(3*(width/4), 60, 165, 50, 10);
   
   // add user information
   textAlign(CENTER,CENTER);
@@ -500,14 +616,14 @@ void drawUserMenu() {
   fill(medBlue);
   // TODO: after game class is done, update lives displayed and lives remaining 
   // TODO: (aka delete next 3 lines and uncomment the 3 lines following that)
-  text("#",width/5,55); 
-  text("#",2*(width/5),55); 
-  text("#",3*(width/5),55); 
+  text("#",width/4,55); 
+  text("#",2*(width/4),55); 
   if (playCountdown.secondsLeft() == 1) {
-    text(playCountdown.secondsLeft() + " sec",4*(width/5),55);
+    text(playCountdown.secondsLeft() + " sec",3*(width/4),55);
   } else {
-    text(playCountdown.secondsLeft() + " secs",4*(width/5),55);
+    text(playCountdown.secondsLeft() + " secs",3*(width/4),55);
   }
+  // TODO: example code to be called once game class is completed
   //text(game.getLevel(),width/5,55);
   //text(game.user.getLivesLeft(),2*(width/5),55);
   //text(game.user.getPoints(),3*(width/5),55;)
@@ -574,47 +690,84 @@ void arrow() {
 }
 
 void keyPressed() {
+  // CASE: user is on welcome page
   // if on the welcome page, any key allows user to move to next page, which is the background
   if (currPage == page[0] && keyPressed) {
     currPage = page[1];
   }
-  // if on the background page, any key allows user to move to next page, which is the user name prompt
+  // CASE: user is on the background page
+  // if on the background page, any key allows user to move to next page, which is the game instructions
   else if (currPage == page[1] && keyPressed) {
     currPage = page[2];
   }
-  // if on the user name prompt...
-  else if (currPage == page[2]) {
-    // enter allows user to move to next page, which is the game instructions
-    if (key == '\n') {
-      // save the user name
-      savedUserName = typing;
-      typing = "";
-      currPage = page[3];
-    }
-    // other keys go into writing out the user's username
-    // delete last character typed if user presses BACKSPACE
-    } else if (key == BACKSPACE) {
-        // can only remove a character typing variable is populated
-        if (typing != "") {
-          typing = typing.substring(0, typing.length()-1);
-      }
-    // ignore shift key if pressed
-    } else if (key == CODED && keyCode == SHIFT) {
-    // add any other key pressed to the typing variable
-    } else {
-      typing += key;
-    }
-  }
+  // CASE: user is on the game instructions page
   // if on the game instructions page, any key allows user to move to next page, which is the level intro
-  else if (currPage == page[3] && keyPressed) {
-    currPage = page[4];
+  else if (currPage == page[2] && keyPressed) {
+    currPage = page[3];
     // TODO: instantiate a new game
     game = new Game();
     // reset the level countdown
     levelCountdown.reset(millis());
   }
-  // if on the summary page, any key allows user to go back to home page
-  else if (currPage == page[6] && keyPressed) {
+  // CASE: user is on the game page
+  else if (currPage == page[4]) {
+      // TODO: define keystrokes that allow player to move
+      
+  }
+  // CASE: user is on the summary page
+  // if on the summary page, user has options on what to do 
+  else if (currPage == page[5]) {
+    // if user presses 'ENTER', move to next page, which is the enter user name
+    if (key == '\n') {
+      currPage = page[6];
+    }
+    // if user presses 'TAB', go back to the home page
+    else if (key == TAB) {
+      currPage = page[0];
+    }
+  }
+  // CASE: user is on the scoreboard page
+  // if on the summary page, user has options on what to do 
+  else if (currPage == page[6]) {
+    // if user presses 'TAB', go back to the home page
+    if (key == TAB) {
+      typing = "";
+      currPage = page[0];
+    }
+    // if user presses 'ENTER' button, save the username
+    else if (key == '\n') {
+      // save the user names
+      savedUserName = typing;
+      typing = "";
+      // move to next page
+      currPage = page[7];
+      // save the username to the scoreboard file
+      // TODO: update user's score to this
+      scoreboard.println(savedUserName + "\t" + "SCORE #");
+      scoreboard.flush();
+    }
+    // other keys go into writing out the user's username
+    // delete last character typed if user presses BACKSPACE
+    else if (key == BACKSPACE) {
+        // can only remove a character typing variable is populated
+        if (typing != "") {
+          typing = typing.substring(0, typing.length()-1);
+      }
+    }
+    // ignore shift key if pressed
+    else if (key == CODED && keyCode == SHIFT) {
+    } 
+    // add any other key pressed to the typing variable
+    else {
+      // make sure that the username is less than 25 characters
+      if (typing.length() < 20) {
+        typing += key;
+      }
+    }
+  }
+  // CASE: user is on the scoreboard page
+  // if on the scoreboard page, 'TAB' allows user to go back to the home page
+  else if (currPage == page[7] && key == TAB) {
     currPage = page[0];
   }
 }
