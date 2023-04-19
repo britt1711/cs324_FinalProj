@@ -10,7 +10,8 @@ class Bug {
   int counter = 0;
   int bodyHeight = 12;
   int bodyLength = 60;
-
+  int screenWidth = 1000;
+  int screenHeight = 700;
 
   Bug(color c, color b, color e, PVector _direction) {
     wingColor = c;

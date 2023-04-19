@@ -8,36 +8,43 @@ class Level {
   int SPEED = 5;
   Bug bug1;
   Bug bug2;
-  Timer timer = new Timer(millis(), interval)
-  coins = new ArrayList<Coin>();
+  //Timer timer = new Timer(millis(), interval);
+  ArrayList<Coin> coins;
   int numCoins;
   int COINSIZE = 15;
   int binSize = COINSIZE*3;
+  color yellow = #EFF07E;
+  color purple = #9E79E3;
+  color gray = #B2ACAC;
+  color red = #D84A54;
+  color green = #518B3B;
+  color brown = #9B763B;
 
 
 
-  
-  Level(int _level, int t, int l, int r, int b, Turtle _turtle, Minim minim){
+
+  Level(int _level, int t, int l, int r, int b, Turtle _turtle, Minim minim) {
     level = _level;
     top = t;
     left = l;
     right = r;
     bottom = b;
     turtle = _turtle;
+    coins = new ArrayList<Coin>();
     PVector bug1speed = new PVector(_level*SPEED, _level*SPEED/5);
     PVector bug2speed = new PVector(_level*SPEED, _level*SPEED);
     bug1 = new Bug(yellow, gray, red, bug1speed);
-    bug2 = new Bug(purple, brown, green, bug2speed); 
+    bug2 = new Bug(purple, brown, green, bug2speed);
     // code to decide placement of coins
     int binXnum = 0;
     int binYnum = 0;
-    int binX = floor((r-l-(2*COINSIZE)) / (binSize);
-    int binY = floor((b-t-(2*COINSIZE)) / (binSize);
+    int binX = floor((r-l-(2*COINSIZE)) / (binSize));
+    int binY = floor((b-t-(2*COINSIZE)) / (binSize));
     numCoins = binX * binY;
     // keep looping through bins and creating a coin until at last bin
     while (coins.size() < numCoins) {
       // if at the last bin in the row, move to next row
-      if (binXnum => binX) {
+      if (binXnum >= binX) {
         // move to next row and reset the binX
         binXnum = 0;
         binYnum += 1;
@@ -45,20 +52,20 @@ class Level {
       // create the coin
       int startX = (binXnum*binSize)+COINSIZE;
       int startY = (binYnum*binSize)+COINSIZE;
-      coins.add(new Coin(random(startX, startX+binSize), random(startY, startY+binSize), minim)
+      coins.add(new Coin(random(startX, startX+binSize), random(startY, startY+binSize), COINSIZE, minim));
     }
   }
-  
-  void display(){
+
+  void display() {
     bug1.display();
     bug1.move();
     bug2.display();
     bug2.move();
     for (Coin c : coins) {
-       c.display(); 
+      c.display();
     }
   }
-  
+
   // check health of the player in comparison to the coins and bug objects
   void checkHealth() {
     // add points to player for coin collisions
@@ -72,14 +79,14 @@ class Level {
       turtle.loseLife();
     }
   }
-    
+
   // function to check if player runs into a coin object
   boolean checkCoinCollision() {
+    return false;
   }
-  
+
   // function to check if player runs into a bug object
   boolean checkBugCollision() {
-  
+    return false;
   }
-  
 }
