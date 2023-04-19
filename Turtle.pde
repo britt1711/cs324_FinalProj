@@ -40,24 +40,24 @@ class Turtle {
 
 
   //moves turtle when player presses keys
-  void move() {
+  void move(int _t, int _b, int _l, int _r) {
     if (keyPressed) {
       if (keyCode == LEFT || key == 'a') {
         right = false;
-        if (pos.x > w) {
+        if ((pos.x - w) > _l) {
           pos.x -= vel.x;
         }
       } else if (keyCode == RIGHT || key == 'd') {
         right = true;
-        if (pos.x < width - w) {
+        if ((pos.x + w) < _r) {
           pos.x += vel.x;
         }
       } else if (keyCode == UP || key == 'w') {
-        if (pos.y > h) {
+        if ((pos.y-h-(h/3.2)) > _t) {
           pos.y -= vel.y;
         }
       } else if (keyCode == DOWN || key == 's') {
-        if (pos.y < height - h+(h/2.1)) {
+        if ((pos.y+ h-(h/2.1)) < _b) {
           pos.y += vel.y;
         }
       }
