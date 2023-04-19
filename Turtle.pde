@@ -3,8 +3,6 @@ class Turtle {
   int livesLeft = 5;
   int points = 0;
 
-
-
   float w, h;
   PVector pos, vel;
   PShape shell, nose, legs, circ;
