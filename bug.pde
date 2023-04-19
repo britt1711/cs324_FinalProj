@@ -13,7 +13,7 @@ class Bug {
   int screenWidth = 1000;
   int screenHeight = 700;
 
-  Bug(color c, color b, color e, PVector _direction, int _x, int _y) {
+  Bug(color c, color b, color e, PVector _direction, int _x, float _y) {
     wingColor = c;
     bodyColor = b;
     eyeColor = e;

@@ -4,7 +4,7 @@ class Turtle {
   int livesLeft = 5;
   int points = 0;
   float startTime;
-  float lifespan = 4000; //amount in miliseconds the turtle is inacrtive after a collision
+  float lifespan = 3000; //amount in miliseconds the turtle is inacrtive after a collision
 
   
   //deals with appearance of turtle
@@ -17,6 +17,8 @@ class Turtle {
   color green_shell = (#4FD823);
   color white = (#FFFFFF);
   color black = (#000000);
+  color green_circle = color(201, 255, 210, 170);
+  color red_circle = color(237,34,40, 100);
 
   //OPTIONAL BULLET CLASS
   ArrayList<Bullet> bullets;
@@ -55,12 +57,12 @@ class Turtle {
   //change the color of the circle around the turtle if it is hit to red
   void deactivate(){
     isActive = false;
-    circ.setFill(color(255, 0, 0, 100));
+    circ.setFill(red_circle);
   }
   
   void activate(){
     isActive = true;
-    circ.setFill(color(255, 0, 0, 50));
+    circ.setFill(green_circle);
   }
 
   //moves turtle when player presses keys
@@ -217,6 +219,6 @@ class Turtle {
     noStroke();
     ellipseMode(CENTER);
     circ = createShape(ELLIPSE, 0, 0-(h/4.2), w * 2, h * 2); // draw circle with diameter larger than turtle size
-    circ.setFill(color(255, 0, 0, 50));
+    circ.setFill(green_circle);
   }
 }

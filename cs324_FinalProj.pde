@@ -1,4 +1,4 @@
-//TODO'S FOR EVERYONE
+ //TODO'S FOR EVERYONE
 //brittany: fix gui is turtle runs out of lives we should see gameover screen. also points at scoreboard does not show the correct number
 //brynne: fix turtle buttons and if time allows shitty code to turtle time //DELETE BULLET STUFF
 //kaitlin: fix butterfly from going off screen
@@ -32,6 +32,8 @@ color lightGray = #b7b9b3;
 color cEnemy = #f3959a; // color used for enemy
 color cHero = #fee293; // color used for hero
 color[] colors = {medBlue, lightBlue, darkBlue};
+color purple = #9E79E3;
+color brown = #9B763B;
 
 // initialize variable for font
 PFont font;
@@ -355,19 +357,28 @@ void displayInstructions() {
   // define col1 and row1 to align the text for objects
   int col1 = 120;
   int row1 = 230;
-  float space = (h3 + (2.5*m));
+  float space = (h3 + (2.75*m));
 
   // TODO: change the game objects to the ones we will be using
   // draw game objects
   textAlign(LEFT, CENTER);
   // user object
-  // TODO: create and display the enemy object here. write it around the position (col1, row1+space)
+  //Turtle(PVector pos, float w, float h, boolean right) {
+  Turtle turtleIcon = new Turtle(new PVector(col1+10,row1+space+5), 23,23,true);
+  turtleIcon.buildTurtle();
+  turtleIcon.display();
+
 
   fill(medBlue);
   textSize(h3);
   text("You, the player", col1+space, row1+space);
   // enemy object
   // TODO: create and display the enemy object here. write it around the position (col1, row1+(2*space))
+  pushMatrix();
+  scale(0.3);
+  Bug bugIcon = new Bug(purple, brown, green, new PVector(0,0), col1*floor(1/0.3)+75, floor((row1+(2*space))*(1/0.3)));
+  bugIcon.display();
+  popMatrix();
 
   textAlign(LEFT, CENTER);
   fill(medBlue);

@@ -5,18 +5,13 @@ class Level {
   int bottom;
   int levNum;
   Turtle turtle;
-  int SPEED = 3;
-
-
-  int COINPOINTS=10;
-
   Bug bug1;
   Bug bug2;
   //Timer timer = new Timer(millis(), interval);
   ArrayList<Coin> coins;
   int numCoins;
-  int COINSIZE = 15;
-  int binSize = COINSIZE*10;
+
+  // colors
   color yellow = #EFF07E;
   color purple = #9E79E3;
   color gray = #B2ACAC;
@@ -24,8 +19,12 @@ class Level {
   color green = #518B3B;
   color brown = #9B763B;
 
-
-
+  // variables that can be changed by developer
+  int COINSIZE = 20;
+  int binSize = COINSIZE*5;
+  // set speed; has to be an even number pls
+  int SPEED = 4;
+  int COINPOINTS=10;
 
   Level(int _level, int t, int b, int l, int r, Turtle _turtle, AudioPlayer sound) {
     levNum = _level;
@@ -37,8 +36,8 @@ class Level {
     // update the speed of the turtle
     turtle.changeSpeed((_level+1)*floor((SPEED-(SPEED/3))));
     coins = new ArrayList<Coin>();
-    PVector bug1speed = new PVector(random(-(_level-1)*SPEED,(_level+1)*SPEED),random(-(_level-1)*SPEED,(_level+1)*SPEED));
-    PVector bug2speed = new PVector(random(-(_level-1)*SPEED,(_level+1)*SPEED),random(-(_level-1)*SPEED,(_level+1)*SPEED));
+    PVector bug1speed = new PVector(random(-_level*(SPEED)-(SPEED/2),_level*SPEED),random(-_level*(SPEED)-(SPEED/2),_level*SPEED));
+    PVector bug2speed = new PVector(random(-_level*(SPEED)-(SPEED/2),_level*SPEED),random(-_level*(SPEED)-(SPEED/2),_level*SPEED));
     bug1 = new Bug(yellow, gray, red, bug1speed, 500, 250);
     bug2 = new Bug(purple, brown, green, bug2speed, 250, 250);
     // code to decide placement of coins
