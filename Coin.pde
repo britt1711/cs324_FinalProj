@@ -30,6 +30,7 @@ class Coin {
   }
 
   void display() {
+    ellipseMode(CENTER);
     fill(255, 215, 0); // gold color
     pushMatrix();
     translate(pos.x, pos.y);
