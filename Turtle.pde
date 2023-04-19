@@ -1,13 +1,27 @@
 class Turtle {
+  
+  int livesLeft = 5;
+  int points = 0;
+  
+  
+  
   float w, h;
   PVector pos, vel;
-  PShape shell,nose;
+  PShape shell, nose, legs, circ;
   boolean right;
 
   color tan = (#F0DE3A);
   color green_shell = (#4FD823);
   color white = (#FFFFFF);
   color black = (#000000);
+
+  //OPTIONAL BULLET CLASS
+  ArrayList<Bullet> bullets;
+  float bulletSpeed = 10;
+  float bulletSize = 10;
+  color bulletColor = color(255, 0, 0);
+  boolean shot;
+
 
   PShape turtle = createShape(GROUP);
 
@@ -16,10 +30,17 @@ class Turtle {
     this.pos = pos.copy();
     this.w = w;
     this.h = h;
-    vel = new PVector(-2, 0);
-    
+    vel = new PVector(4, 4);
+
     //for debugging purposes
     this.right = right;
+
+    // initialize bullets array
+    bullets = new ArrayList<Bullet>();
+  }
+
+  void changePosition(PVector _pos) {
+    pos = _pos;
   }
 
   void buildTurtle() {
@@ -32,10 +53,11 @@ class Turtle {
     PShape head = createShape(ELLIPSE, -(w/2), -(h/2), w/2, h/1.5); //draw head
     head.setFill(tan);
 
+    //PShape ear = createShape(ARC, -(w/2.2), -(h/1.2), w/4, h/3, PI, PI*2); //ear
+    //ear.setFill(tan);
+
     nose = createShape(ELLIPSE, -(w/1.4), -(h/2.2), w/3, h/3); //nose of turtle
-    nose.setFill(tan); 
-    //----------THIS IS ENEMY OBJECT POSITION WHICH WE SHOULD CHECK IF MARIO INTERSECTS
-    // ALSO SHOULD BE USED TO BOUNCE OFF OF PIPES AND TURN POSITIONS
+    nose.setFill(tan);
 
     PShape eye = createShape(ELLIPSE, -(w/1.7), -(h/1.8), w/4, h/3.5);
     eye.setFill(white);
@@ -43,53 +65,115 @@ class Turtle {
     PShape iris = createShape(ELLIPSE, -(w/1.5), -(h/1.8), w/10, h/5);
     iris.setFill(black);
 
+    //create legs
+    legs = createShape(GROUP);
+    for (int i = 0; i < 4; i++) {
+      PShape leg = createShape(RECT, -(w/3) + (w/5 * i), (h)-h*1.1, w/8, h/1.8);
+      leg.setFill(tan);
+      legs.addChild(leg);
+    }
+
+    turtle.addChild(legs);
     turtle.addChild(shell);
     turtle.addChild(nose);
     turtle.addChild(head);
     turtle.addChild(eye);
     turtle.addChild(iris);
+
+    noStroke();
+    ellipseMode(CENTER);
+    circ = createShape(ELLIPSE, 0, 0-(h/4.2), w * 2, h * 2); // draw circle with diameter larger than turtle size
+    circ.setFill(color(255, 0, 0, 50));
   }
-  
-  
-  
-  void update(){
-    
-    //displays the turtle by switching position across y axis
-    /*----------------NOTE---------------------
-    issue here is that when i scale the shape -1.0 it displays turtle at pos.x*-1.0
-    which is not where I want to display the turtle. I want to still display turtle
-    at same x position now moving in opposite velocity so I can multiple vel*-1
-    */
-    
-    
-    if (right){
+
+
+  void move() {
+    if (keyPressed) {
+      if (keyCode == LEFT || key == 'a') {
+        right = false;
+        if (pos.x > w) {
+          pos.x -= vel.x;
+        }
+      } else if (keyCode == RIGHT || key == 'd') {
+        right = true;
+        if (pos.x < width - w) {
+          pos.x += vel.x;
+        }
+      } else if (keyCode == UP || key == 'w') {
+        if (pos.y > h) {
+          pos.y -= vel.y;
+        }
+      } else if (keyCode == DOWN || key == 's') {
+        if (pos.y < height - h+(h/2.1)) {
+          pos.y += vel.y;
+        }
+      }
+    }
+  }
+
+
+  //shows turtle position
+  void display() {
+    // sway the legs back and forth
+    float legAngle = sin(frameCount * 0.1) * PI / 210;
+    legs.rotate(legAngle);
+
+    //show transparent circle around turtle
+    shape(circ, pos.x, pos.y);
+
+    if (right) {
       pushMatrix();
-      translate(pos.x,pos.y);
-      scale(-1.0,1.0);
-      //vel.x=vel.x*-1;
-      pos.add(vel);
-      shape(turtle,0,0);
+      translate(pos.x, pos.y);
+      scale(-1.0, 1.0);
+      shape(turtle, 0, 0);
       popMatrix();
-    }else{
-      pos.add(vel);
-      shape(turtle,pos.x,pos.y);
+    } else {
+      shape(turtle, pos.x, pos.y);
     }
-    //println(pos);
+
+    // display bullets
+    for (int i = bullets.size() - 1; i >= 0; i--) {
+      Bullet b = bullets.get(i);
+      b.move();
+      b.display();
+      if (b.outOfBounds) {
+        bullets.remove(i);
+      }
+    }
+  }
+
+  void shoot() {
+    float bulletX, bulletY;
+    if (right) {
+      bulletX = pos.x + w/2;
+    } else {
+      bulletX = pos.x - w/2;
+    }
+    bulletY = pos.y;
+    Bullet newBullet = new Bullet(bulletX, bulletY, 10, 10, right); // pass in the right value
+    bullets.add(newBullet);
+  }
+
+  void shootBullet() {
+    if (keyPressed && key == ' ') {
+      if (!shot) {
+        shoot(); // create and add new bullet to array
+        shot = true; // set shot to true
+      }
+    } else {
+      shot = false; // reset shot to false when space bar is not pressed
+    }
   }
   
-  
-  
-  //GET POSITION OF TURTLES NOSE TO SEE IF TURTLES TOUCHES ANYTHING
-  PVector getNosePosition(){
-    PVector nosePos;
-    if (right){
-      nosePos = new PVector((pos.x+(w/1.4)+ (w/6)) , (pos.y - (h/2.2) - (h/6)));
-    }else{
-      nosePos = new PVector((pos.x-(w/1.4) - (w/6)) , (pos.y - (h/2.2) - (h/6)));
-    }
-    return nosePos;
+  // increases points gained
+  void plusPoint(int p) {
+    points += p;
   }
   
+  // decrease life
+  void loseLife() {
+    livesLeft -= 1;
+  }
   
   
 }
