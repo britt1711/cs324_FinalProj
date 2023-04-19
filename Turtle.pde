@@ -1,10 +1,10 @@
 class Turtle {
-  
+
   int livesLeft = 5;
   int points = 0;
-  
-  
-  
+
+
+
   float w, h;
   PVector pos, vel;
   PShape shell, nose, legs, circ;
@@ -20,8 +20,7 @@ class Turtle {
   float bulletSpeed = 10;
   float bulletSize = 10;
   color bulletColor = color(255, 0, 0);
-  boolean shot;
-
+  boolean shot, isAlive;
 
   PShape turtle = createShape(GROUP);
 
@@ -30,9 +29,7 @@ class Turtle {
     this.pos = pos.copy();
     this.w = w;
     this.h = h;
-    vel = new PVector(4, 4);
-
-    //for debugging purposes
+    vel = new PVector(4, 4); //DO WE WANT TO CHANGE VELOCITY WITH DIF LEVELS? if so put this in parameter
     this.right = right;
 
     // initialize bullets array
@@ -43,6 +40,121 @@ class Turtle {
     pos = _pos;
   }
 
+
+  //moves turtle when player presses keys
+  void move() {
+    if (keyPressed) {
+      if (keyCode == LEFT || key == 'a') {
+        right = false;
+        if (pos.x > w) {
+          pos.x -= vel.x;
+        }
+      } else if (keyCode == RIGHT || key == 'd') {
+        right = true;
+        if (pos.x < width - w) {
+          pos.x += vel.x;
+        }
+      } else if (keyCode == UP || key == 'w') {
+        if (pos.y > h) {
+          pos.y -= vel.y;
+        }
+      } else if (keyCode == DOWN || key == 's') {
+        if (pos.y < height - h+(h/2.1)) {
+          pos.y += vel.y;
+        }
+      }
+    }
+  }
+
+
+  //shows turtle 
+  void display() {
+    // sway the legs back and forth
+    float legAngle = sin(frameCount * 0.1) * PI / 210;
+    legs.rotate(legAngle);
+
+    //show transparent circle around turtle
+    shape(circ, pos.x, pos.y);
+
+    if (right) {
+      pushMatrix();
+      translate(pos.x, pos.y);
+      scale(-1.0, 1.0);
+      shape(turtle, 0, 0);
+      popMatrix();
+    } else {
+      shape(turtle, pos.x, pos.y);
+    }
+
+
+    //ONLY RELEVANT IF WE DECIDE TO DO BULLETS
+    // display bullets
+    for (int i = bullets.size() - 1; i >= 0; i--) {
+      Bullet b = bullets.get(i);
+      b.move();
+      b.display();
+      if (b.outOfBounds) {
+        bullets.remove(i);
+      }
+    }
+    
+    
+  }
+
+  // increases points gained
+  void plusPoint(int p) {
+    points += p;
+  }
+
+  // decrease life
+  void loseLife() {
+    livesLeft -= 1;
+  }
+
+  int getPoints() {
+    return points;
+  }
+
+  int getLives() {
+    return livesLeft;
+  }
+
+  boolean isAlive() {
+    return (livesLeft > 0);
+  }
+
+
+
+
+  //OPTIONAL BULLET CLASS .... POSSIBLY ADD AFTER COLLECTS CERTAIN AMOUNT OF COINS?
+  void shoot() {
+    float bulletX, bulletY;
+    if (right) {
+      bulletX = pos.x + w/2;
+    } else {
+      bulletX = pos.x - w/2;
+    }
+    bulletY = pos.y;
+    Bullet newBullet = new Bullet(bulletX, bulletY, 10, 10, right); // pass in the right value
+    bullets.add(newBullet);
+  }
+
+  void shootBullet() {
+    if (keyPressed && key == ' ') {
+      if (!shot) {
+        shoot(); // create and add new bullet to array
+        shot = true; // set shot to true
+      }
+    } else {
+      shot = false; // reset shot to false when space bar is not pressed
+    }
+  }
+  
+  
+  
+  
+
+  //only build turtle once in setup
   void buildTurtle() {
 
     ellipseMode(CENTER);
@@ -85,95 +197,4 @@ class Turtle {
     circ = createShape(ELLIPSE, 0, 0-(h/4.2), w * 2, h * 2); // draw circle with diameter larger than turtle size
     circ.setFill(color(255, 0, 0, 50));
   }
-
-
-  void move() {
-    if (keyPressed) {
-      if (keyCode == LEFT || key == 'a') {
-        right = false;
-        if (pos.x > w) {
-          pos.x -= vel.x;
-        }
-      } else if (keyCode == RIGHT || key == 'd') {
-        right = true;
-        if (pos.x < width - w) {
-          pos.x += vel.x;
-        }
-      } else if (keyCode == UP || key == 'w') {
-        if (pos.y > h) {
-          pos.y -= vel.y;
-        }
-      } else if (keyCode == DOWN || key == 's') {
-        if (pos.y < height - h+(h/2.1)) {
-          pos.y += vel.y;
-        }
-      }
-    }
-  }
-
-
-  //shows turtle position
-  void display() {
-    // sway the legs back and forth
-    float legAngle = sin(frameCount * 0.1) * PI / 210;
-    legs.rotate(legAngle);
-
-    //show transparent circle around turtle
-    shape(circ, pos.x, pos.y);
-
-    if (right) {
-      pushMatrix();
-      translate(pos.x, pos.y);
-      scale(-1.0, 1.0);
-      shape(turtle, 0, 0);
-      popMatrix();
-    } else {
-      shape(turtle, pos.x, pos.y);
-    }
-
-    // display bullets
-    for (int i = bullets.size() - 1; i >= 0; i--) {
-      Bullet b = bullets.get(i);
-      b.move();
-      b.display();
-      if (b.outOfBounds) {
-        bullets.remove(i);
-      }
-    }
-  }
-
-  void shoot() {
-    float bulletX, bulletY;
-    if (right) {
-      bulletX = pos.x + w/2;
-    } else {
-      bulletX = pos.x - w/2;
-    }
-    bulletY = pos.y;
-    Bullet newBullet = new Bullet(bulletX, bulletY, 10, 10, right); // pass in the right value
-    bullets.add(newBullet);
-  }
-
-  void shootBullet() {
-    if (keyPressed && key == ' ') {
-      if (!shot) {
-        shoot(); // create and add new bullet to array
-        shot = true; // set shot to true
-      }
-    } else {
-      shot = false; // reset shot to false when space bar is not pressed
-    }
-  }
-  
-  // increases points gained
-  void plusPoint(int p) {
-    points += p;
-  }
-  
-  // decrease life
-  void loseLife() {
-    livesLeft -= 1;
-  }
-  
-  
 }
