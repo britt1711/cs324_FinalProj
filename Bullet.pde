@@ -23,6 +23,7 @@ class Bullet {
   }
 
   void display() {
+    fill(#F01111);
     ellipse(x, y, r, r);
   }
 }

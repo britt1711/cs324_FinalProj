@@ -1,6 +1,6 @@
 class Bug {
-  float x = 500;
-  float y = 250;
+  float x;
+  float y;
   PVector direction;
   color wingColor;
   color bodyColor;
@@ -13,11 +13,13 @@ class Bug {
   int screenWidth = 1000;
   int screenHeight = 700;
 
-  Bug(color c, color b, color e, PVector _direction) {
+  Bug(color c, color b, color e, PVector _direction, int _x, int _y) {
     wingColor = c;
     bodyColor = b;
     eyeColor = e;
     direction = _direction;
+    x = _x;
+    y = _y;
   }
   
   
@@ -29,13 +31,20 @@ class Bug {
       direction.y *= -1;
     } 
     fill(bodyColor);
-    
+    fly();
     PShape bug = createShape(GROUP);
     PShape body = createShape(ELLIPSE, x, y, bodyLength, bodyHeight);
+    
+   // testing circle around butterfly
+    PShape circ = createShape(ELLIPSE, x, y, bodyLength*2, bodyLength*2);
+    circ.setFill(color(255,0,0,50));
+    
     PShape stinger = createShape(TRIANGLE, x - bodyLength/2, y-3, x - bodyLength/2, y+3, x - bodyLength/2 - 15, y);
     fill(eyeColor);
     PShape eye = createShape(ELLIPSE, x + 12, y - 1, 3, 3);
     PShape stripe = createShape(RECT, x-10, y-bodyHeight/2, 5, bodyHeight);
+    
+    bug.addChild(circ);
     bug.addChild(body);
     bug.addChild(stinger);
     bug.addChild(eye);

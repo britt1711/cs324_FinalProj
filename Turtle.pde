@@ -1,8 +1,13 @@
 class Turtle {
 
+  //deals with lives and logic of game
   int livesLeft = 5;
   int points = 0;
+  float startTime;
+  float lifespan = 4000; //amount in miliseconds the turtle is inacrtive after a collision
 
+  
+  //deals with appearance of turtle
   float w, h;
   PVector pos, vel;
   PShape shell, nose, legs, circ;
@@ -18,7 +23,7 @@ class Turtle {
   float bulletSpeed = 10;
   float bulletSize = 10;
   color bulletColor = color(255, 0, 0);
-  boolean shot, isAlive;
+  boolean shot, isAlive, isActive;
 
   PShape turtle = createShape(GROUP);
 
@@ -32,12 +37,31 @@ class Turtle {
 
     // initialize bullets array
     bullets = new ArrayList<Bullet>();
+    isActive = true;
   }
 
   void changePosition(PVector _pos) {
     pos = _pos;
   }
+  
+  void changeSpeed(int speed){
+    vel = new PVector(speed, speed);
+  }
 
+  boolean isActive(){
+    return isActive;
+  }
+
+  //change the color of the circle around the turtle if it is hit to red
+  void deactivate(){
+    isActive = false;
+    circ.setFill(color(255, 0, 0, 100));
+  }
+  
+  void activate(){
+    isActive = true;
+    circ.setFill(color(255, 0, 0, 50));
+  }
 
   //moves turtle when player presses keys
   void move(int _t, int _b, int _l, int _r) {

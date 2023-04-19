@@ -1,5 +1,3 @@
-import ddf.minim.*;
-
 class Coin {
   PVector pos;
   int size;
@@ -12,12 +10,12 @@ class Coin {
   float increment = 0.025;
   AudioPlayer coinSound;
   
-  Coin(float x, float y, int s, Minim minim) {
+  Coin(float x, float y, int s, AudioPlayer sound) {
     pos = new PVector(x, y);
     size = s;
     rotation = 0;
     collected = false;
-    sparkleInterval = 20; // emit sparkles every 30 frames
+    sparkleInterval = 10; // emit sparkles every 30 frames
     lastSparkleTime = frameCount;
     sparkles = new ArrayList<Sparkle>();
     angle = 1.0;
@@ -26,7 +24,7 @@ class Coin {
       "coin_collect.mp3"
       );
     //minim = new Minim(this);
-    coinSound = minim.loadFile(filePath);
+    coinSound = sound;
   }
 
   void display() {
@@ -51,7 +49,7 @@ class Coin {
     if (frameCount - lastSparkleTime > sparkleInterval) {
       float sparkleX = random(pos.x - size/2, pos.x + size/2);
       float sparkleY = random(pos.y - size * 2, pos.y - size/1.5);
-      float sparkleSize = random(3, 6);
+      float sparkleSize = random(3, 6) * (0.5);
       sparkles.add(new Sparkle(sparkleX, sparkleY, sparkleSize));
       lastSparkleTime = frameCount;
     }
@@ -71,10 +69,19 @@ class Coin {
   void collect() {
     collected = true;
     angle = 1;
-    coinSound.play();
+    if (!isMuted) {
+      coinSound.play();
+      coinSound.rewind(); 
+    }
     // Set final position and size of coin to make it disappear
     pos.y = -9999;
     size = 0;
+  }
+  
+  
+  // return whether coin is collected
+  boolean isCollected() {
+    return collected;
   }
 }
 
@@ -89,7 +96,9 @@ class Sparkle {
     x = x_;
     y = y_;
     radius = radius_;
-    c = color(255, 255, random(200, 255));
+    //TODO: change back to white when background is added
+    //c = color(255, 255, random(200, 255)); //white color for sparkles
+    c = color(255, 215, 0);
     lifespan = 255;
   }
 
@@ -106,4 +115,5 @@ class Sparkle {
   boolean isDead() {
     return lifespan <= 0;
   }
+  
 }

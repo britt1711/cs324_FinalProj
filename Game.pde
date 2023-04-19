@@ -1,81 +1,82 @@
-//// defines the game class
+// defines the game class
 
-//<<<<<<< Updated upstream
-class Game {}
-
-//class Game {
-//  int top;
-//  int bottom;
-//  int left;
-//  int right;
-//  boolean active;
-//  Turtle turtle;
-//  Level level;
-//  int maxLevels = 5; // set the max levels
+class Game {
+  int top;
+  int bottom;
+  int left;
+  int right;
+  boolean active;
+  Turtle turtle;
+  Level level;
+  AudioPlayer sound;
+  int maxLevels = 5; // set the max levels
   
-//  Game(int _t, int _b, int _l, int _r) {
-//    top = _t;
-//    bottom = _b;
-//    left = _l;
-//    right = _r;
-//    active = true;
-//    turtle = new Turtle(new PVector(width/2,height/2),50,50,true);
-//    turtle.buildTurtle();
+  Game(int _t, int _b, int _l, int _r, AudioPlayer _s) {
+    top = _t;
+    bottom = _b;
+    left = _l;
+    right = _r;
+    active = true;
+    turtle = new Turtle(new PVector(0,height/2),50,50,true);
+    turtle.buildTurtle();
+    sound = _s;
     
-    
-    
-//    // TODO: Kaitlin to instantiate the level for first level
-//    //Level = new Level(player, );
-//  }
+    // TODO: Kaitlin to instantiate the level for first level
+    level = new Level(1, top, bottom, left, right, turtle, sound);
+  }
   
-//  // function to get the level
-//  void getLevel() {
-//    return level.getLevel();
-//  }
+  // function to get the level
+  int getLevel() {
+    return level.levNum;
+  }
   
-//  // function to move to the next level
-//  void moveToNextLevel() {
-//    if (checkNextLevel()) {
-//      // TODO: Kaitlin to increment the new level
-//      //Level = new Level(player, level.levNum + 1, );
-//    }
-//  }
+  // function to move to the next level
+  void nextLevel() {
+    if (!isOnLastLevel()) {
+      // TODO: Brynne to reset the turtle to middle of screen
+      turtle.changePosition(new PVector(0,height/2));
+      turtle.right=true;
+      
+      // TODO: Kaitlin to increment the new level
+      level = new Level(level.levNum + 1, top, bottom, left, right, turtle, sound);
+    }
+  }
   
-//  // function to see if we move to next level
-//  boolean isOnLastLevel() {
-//    if (level.levNum < maxLevels) {
-//      return false;
-//    }
-//    // if on last level, game is over
-//    active = false;
-//    return true;
-//  }
   
-//  // function to get player stays for the game summary screen
-//  int[] getPlayerStats() {
-//    int[] stats = [turtle.getPoints(), turtle.getLives()];
-//    return stats;
-//  }
+  // function to see if we move to next level
+  boolean isOnLastLevel() {
+    if (level.levNum < maxLevels) {
+      return false;
+    }
+    // if on last level, game is over
+    active = false;
+    return true;
+  }
   
-//  // function defines the players score based on the points and lives they have left
-//  int getPlayerScore() {
-//    int[] stats = this.getPlayerStats()
-//    // score = points plus number of lives * half of points
-//    return round(stats[0] + (stats[1]*(stats[0]/2)));
-//  }
+  // function to get player stays for the game summary screen
+  int[] getPlayerStats() {
+    int[] stats = {turtle.getPoints(), turtle.getLives()};
+    return stats;
+  }
   
-//  // function to check health of the player
-//  boolean isPlayerAlive() {
-//    if (!turtle.isAlive()) {
-//      // if player dies, game is over
-//      active = false;
-//    }
-//    return turtle.isAlive();
-//  }
+  // function defines the players score based on the points and lives they have left
+  int getPlayerScore() {
+    int[] stats = this.getPlayerStats();
+    // score = points plus number of lives * half of points
+    return round(stats[0] + (stats[1]*(stats[0]/2)));
+  }
   
-//  // function to display the game
-//  void display() {
-//    level.display();
-//  }
-//}
-//>>>>>>> Stashed changes
+  // function to check health of the player
+  boolean isPlayerAlive() {
+    if (!turtle.isAlive()) {
+      // if player dies, game is over
+      active = false;
+    }
+    return turtle.isAlive();
+  }
+  
+  // function to display the game
+  void display() {
+    level.display();
+  }
+}
