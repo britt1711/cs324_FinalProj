@@ -1,3 +1,5 @@
+import ddf.minim.*;
+
 class Coin {
   PVector pos;
   int size;
@@ -8,8 +10,9 @@ class Coin {
   ArrayList<Sparkle> sparkles;
   float angle = 1;
   float increment = 0.025;
-
-  Coin(float x, float y, int s) {
+  AudioPlayer coinSound;
+  
+  Coin(float x, float y, int s, Minim minim) {
     pos = new PVector(x, y);
     size = s;
     rotation = 0;
@@ -18,6 +21,12 @@ class Coin {
     lastSparkleTime = frameCount;
     sparkles = new ArrayList<Sparkle>();
     angle = 1.0;
+  
+    String filePath = dataPath(
+      "coin_collect.mp3"
+      );
+    //minim = new Minim(this);
+    coinSound = minim.loadFile(filePath);
   }
 
   void display() {
@@ -27,7 +36,7 @@ class Coin {
     scale(angle, 1.0);
     ellipse(0, 0, size, size);
     popMatrix();
-
+    emitSparkles();
     displaySparkles();
 
     if (angle <= -1) {
@@ -62,17 +71,7 @@ class Coin {
   void collect() {
     collected = true;
     angle = 1;
-    float startY = pos.y;
-    float endY = pos.y - size * 2;
-    float duration = 100;
-    float startTime = millis();
-    float sizeIncrement = size/duration;
-    for (float t = 0; t < 1; t += 1/duration) {
-      pos.y = lerp(startY, endY, t);
-      size -= sizeIncrement;
-      display();
-      emitSparkles();
-    }
+    coinSound.play();
     // Set final position and size of coin to make it disappear
     pos.y = -9999;
     size = 0;
