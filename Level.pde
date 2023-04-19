@@ -37,10 +37,10 @@ class Level {
     // update the speed of the turtle
     turtle.changeSpeed((_level+1)*floor((SPEED-(SPEED/3))));
     coins = new ArrayList<Coin>();
-    PVector bug1speed = new PVector(_level*SPEED, _level*SPEED/5);
-    PVector bug2speed = new PVector(_level*SPEED, _level*SPEED);
+    PVector bug1speed = new PVector(random(-(_level-1)*SPEED,(_level+1)*SPEED),random(-(_level-1)*SPEED,(_level+1)*SPEED));
+    PVector bug2speed = new PVector(random(-(_level-1)*SPEED,(_level+1)*SPEED),random(-(_level-1)*SPEED,(_level+1)*SPEED));
     bug1 = new Bug(yellow, gray, red, bug1speed, 500, 250);
-    bug2 = new Bug(purple, brown, green, bug2speed, 500, 250);
+    bug2 = new Bug(purple, brown, green, bug2speed, 250, 250);
     // code to decide placement of coins
     int binXnum = 0;
     int binYnum = 0;

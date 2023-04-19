@@ -1,3 +1,12 @@
+//TODO'S FOR EVERYONE
+//brittany: fix gui is turtle runs out of lives we should see gameover screen. also points at scoreboard does not show the correct number
+//brynne: fix turtle buttons and if time allows shitty code to turtle time //DELETE BULLET STUFF
+//kaitlin: fix butterfly from going off screen
+//jonathan: add sound effects for collision with bug in level
+//SOMEBODY ADD LEVEL BACKGROUNDS  
+
+
+
 // Authors: Brittany Given, Brynne Jackson, Jonathan Liu, Kailtin Shin
 // Assignment: Final Project
 // Date: 4/16/2023
