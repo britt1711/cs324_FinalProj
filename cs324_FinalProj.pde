@@ -373,7 +373,7 @@ void displayInstructions() {
   textSize(h3);
   text("You, the player", col1+space, row1+space);
   // enemy object
-  // TODO: create and display the enemy object here. write it around the position (col1, row1+(2*space))
+
   pushMatrix();
   scale(0.3);
   Bug bugIcon = new Bug(purple, brown, green, new PVector(0,0), col1*floor(1/0.3)+75, floor((row1+(2*space))*(1/0.3)));
@@ -386,6 +386,9 @@ void displayInstructions() {
   text("Bugs, be sure to avoid them!", col1+space, row1+(2*space));
   // coin object
   // TODO: create and display the coin object here. write it around the position (col1, row1+(3*space))
+  //float x, float y, int s, AudioPlayer sound
+  Coin coinIcon = new Coin(col1+10, row1+(3*space),30,coinSound);
+  coinIcon.display();
 
   textAlign(LEFT, CENTER);
   fill(medBlue);

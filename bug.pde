@@ -27,7 +27,7 @@ class Bug {
     if(x>screenWidth || x < 0){
       direction.x *= -1;
     } 
-    if(y>screenHeight || y < 0){
+    if(y>screenHeight || y < 100){
       direction.y *= -1;
     } 
     fill(bodyColor);
