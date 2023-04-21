@@ -1,5 +1,4 @@
  //TODO'S FOR EVERYONE
-//brittany: fix gui is turtle runs out of lives we should see gameover screen. also points at scoreboard does not show the correct number
 //brynne: fix turtle buttons and if time allows shitty code to turtle time //DELETE BULLET STUFF
 //kaitlin: fix butterfly from going off screen
 //jonathan: add sound effects for collision with bug in level
@@ -59,6 +58,9 @@ boolean isMuted = false;
 // variables for the animation timer
 Timer textOff;
 Timer textOn;
+// for "typing" cursor blinking text during create username
+Timer textOff2;
+Timer textOn2;
 int textInterval = 2500; // denotes how long to not display text for
 
 // EXTRA: timer for countdown before each level starts
@@ -100,6 +102,9 @@ Turtle turtleIcon;
 Bug bugIcon;
 Coin coinIcon;
 
+// image for background of levels
+PImage[] imgs;
+
 // variables to hold player stats
 int [] playerStats;
 int score;
@@ -107,6 +112,14 @@ int score;
 void setup() {
   // set canvas size
   size(1000, 800);
+  
+  // images for the level background
+  PImage img1 = loadImage("turtlePond.jpg");
+  PImage img2 = loadImage("tower.jpg");
+  PImage img3 = loadImage("speedway.png");
+  PImage img4 = loadImage("gregGym.jpg");
+  PImage img5 = loadImage("pcl.jpg");
+  imgs = new PImage[]{img1, img2, img3, img4, img5};
 
   // define sound for coin
   String filePath = dataPath(
@@ -133,6 +146,8 @@ void setup() {
   // instantiate timer for blinking text
   textOff = new Timer(millis(), 300);
   textOn = new Timer(millis(), 2000);
+  textOff2 = new Timer(millis(), 300);
+  textOn2 = new Timer(millis(), 300);
 
   // instantiate timer for level countdown - appears as though user gets 3 seconds
   levelCountdown = new Timer(millis(), 4000);
@@ -582,7 +597,13 @@ void displayCreateUsername() {
   textSize(h2);
   fill(darkBlue);
   text(typing, width/2, height/2);
-
+  
+  // blinking line to show typing
+  fill(gray);
+  textSize(h2);
+  // allow text to blink
+  blinkText("|", width/2+ceil(textWidth(typing+"  ")/2), height/2-h2-10, 800, 80, textOff2, textOn2);
+  
   // display instructions to move to save username or go back to home page
   fill(gray);
   textSize(h4);

@@ -10,7 +10,6 @@ class Level {
   Turtle turtle;
   Bug bug1;
   Bug bug2;
-  //Timer timer = new Timer(millis(), interval);
   ArrayList<Coin> coins;
   int numCoins;
 
@@ -67,6 +66,9 @@ class Level {
   }
 
   void display() {
+    // draw background
+    tint(255, 30);
+    image(imgs[levNum-1], left, top);
     // move bug
     bug1.move();
     bug2.move();
