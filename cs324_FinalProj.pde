@@ -1,8 +1,8 @@
- //TODO'S FOR EVERYONE
+//TODO'S FOR EVERYONE
 //brynne: fix turtle buttons and if time allows shitty code to turtle time //DELETE BULLET STUFF
 //kaitlin: fix butterfly from going off screen
 //jonathan: add sound effects for collision with bug in level
-//SOMEBODY ADD LEVEL BACKGROUNDS  
+//SOMEBODY ADD LEVEL BACKGROUNDS
 
 
 
@@ -107,10 +107,20 @@ PImage[] imgs;
 int [] playerStats;
 int score;
 
+
+//boolean for turtle movements
+boolean leftArrow, rightArrow, upArrow, downArrow;
+
 void setup() {
   // set canvas size
   size(1000, 800);
-  
+
+  //set booleans for turtle to false
+  leftArrow = false;
+  rightArrow = false;
+  upArrow = false;
+  downArrow = false;
+
   // images for the level background
   PImage img1 = loadImage("turtlePond.jpg");
   PImage img2 = loadImage("tower.jpg");
@@ -162,15 +172,15 @@ void setup() {
   bEnd = new ButtonRect(4*(width/5), height-50, w, h, "End", colors);
   bSoundOff = new ButtonRect(3*(width/5), height-50, w+40, h, "Sound Off", colors);
   bSoundOn = new ButtonRect(3*(width/5), height-50, w+40, h, "Sound On", colors);
-  
+
   // instantiate object icons for game instructions page
   // define col1 and row1 to align the text for objects
   int col1 = 120;
   int row1 = 230;
   float space = (h3 + (2.75*m));
-  turtleIcon = new Turtle(new PVector(col1+10,row1+space+5), 23,23,true);
-  bugIcon = new Bug(purple, brown, green, new PVector(0,0), col1*floor(1/0.3)+75, floor((row1+(2*space))*(1/0.3)));
-  coinIcon = new Coin(col1+10, row1+(3*space),20,coinSound);
+  turtleIcon = new Turtle(new PVector(col1+10, row1+space+5), 23, 23, true);
+  bugIcon = new Bug(purple, brown, green, new PVector(0, 0), col1*floor(1/0.3)+75, floor((row1+(2*space))*(1/0.3)));
+  coinIcon = new Coin(col1+10, row1+(3*space), 20, coinSound);
 }
 
 void draw() {
@@ -387,7 +397,7 @@ void displayInstructions() {
   fill(medBlue);
   textSize(h3);
   text("You, the player", col1+space, row1+space);
-  
+
   // bug object
   pushMatrix();
   scale(0.3);
@@ -397,7 +407,7 @@ void displayInstructions() {
   fill(medBlue);
   textSize(h3);
   text("Bugs, be sure to avoid them!", col1+space, row1+(2*space));
-  
+
   // coin object
   coinIcon.display();
   textAlign(LEFT, CENTER);
@@ -492,7 +502,7 @@ void displayLevel() {
   // display game
   game.display();
 
-  println(game.isPlayerAlive());
+
   // when player dies, move to game summary page
   if (!game.isPlayerAlive()) {
     currPage = page[5];
@@ -507,15 +517,15 @@ void displaySummary() {
   textSize(h1);
   textAlign(CENTER, BOTTOM);
   text("Game Summary", width/2, 150);
-  
+
   // get player stats - points, lives
   playerStats = game.getPlayerStats();
   // get player score
   score = game.getPlayerScore();
-  
+
   // define rows to keep track of text placement
   int row = 240;
-  
+
   // display message based on if made it thru all levels or not
   fill(medBlue);
   textSize(h3);
@@ -524,7 +534,7 @@ void displaySummary() {
   // happy message if made it thru all levels
   if (game.isPlayerAlive()) {
     text("Yay! You've made it as far as the forty acres stretches.", width/2, row, 800, 80);
-  } 
+  }
   // sad message if lost all lives
   else {
     text("Oh No! Looks like the bugs scared you away and you had to go home early...", width/2, row, 800, 80);
@@ -544,7 +554,7 @@ void displaySummary() {
   text("Points", col1, row);
   text("Lives Left", col2, row);
   text("Total Score", col3, row);
-  
+
   // display values
   row += 50;
   fill(medBlue);
@@ -585,13 +595,13 @@ void displayCreateUsername() {
   textSize(h2);
   fill(darkBlue);
   text(typing, width/2, height/2);
-  
+
   // blinking line to show typing
   fill(gray);
   textSize(h2);
   // allow text to blink
   blinkText("|", width/2+ceil(textWidth(typing+"  ")/2), height/2-h2-10, 800, 80, textOff2, textOn2);
-  
+
   // display instructions to move to save username or go back to home page
   fill(gray);
   textSize(h4);
@@ -807,6 +817,7 @@ void arrow() {
 }
 
 void keyPressed() {
+
   // CASE: user is on welcome page
   // if on the welcome page, any key allows user to move to next page, which is the background
   if (currPage == page[0] && keyPressed) {
@@ -829,6 +840,18 @@ void keyPressed() {
   // CASE: user is on the game page
   else if (currPage == page[4]) {
     // TODO: define keystrokes that allow player to move
+    if (keyCode == LEFT) {
+      leftArrow = true;
+    }
+    if (keyCode == RIGHT) {
+      rightArrow = true;
+    }
+    if (keyCode == UP) {
+      upArrow = true;
+    }
+    if (keyCode == DOWN) {
+      downArrow = true;
+    }
   }
   // CASE: user is on the summary page
   // if on the summary page, user has options on what to do
@@ -885,6 +908,13 @@ void keyPressed() {
   else if (currPage == page[7] && key == TAB) {
     currPage = page[0];
   }
+}
+
+void keyReleased() {
+  leftArrow = false;
+  rightArrow = false;
+  upArrow = false;
+  downArrow = false;
 }
 
 // action on buttons occur when mouse is pressed over the button

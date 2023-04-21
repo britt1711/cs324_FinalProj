@@ -20,7 +20,7 @@ class Turtle {
   color white = (#FFFFFF);
   color black = (#000000);
   color green_circle = color(201, 255, 210, 170);
-  color red_circle = color(237,34,40, 100);
+  color red_circle = color(237, 34, 40, 100);
 
   //OPTIONAL BULLET CLASS
   ArrayList<Bullet> bullets;
@@ -47,55 +47,57 @@ class Turtle {
   void changePosition(PVector _pos) {
     pos = _pos;
   }
-  
+
   // function to change speed of turtle moving
-  void changeSpeed(int speed){
+  void changeSpeed(int speed) {
     vel = new PVector(speed, speed);
   }
 
   // function to check if turtle is active
-  boolean isActive(){
+  boolean isActive() {
     return isActive;
   }
 
   // change the color of the circle around the turtle if it is hit to red
-  void deactivate(){
+  void deactivate() {
     isActive = false;
     circ.setFill(red_circle);
   }
-  
+
   // function to reactivate turtle
-  void activate(){
+  void activate() {
     isActive = true;
     circ.setFill(green_circle);
   }
 
   // moves turtle when player presses keys
   void move(int _t, int _b, int _l, int _r) {
-    //if (keyPressed) {
-      if (keyCode == LEFT || key == 'a') {
-        right = false;
-        if ((pos.x - w) > _l) {
-          pos.x -= vel.x;
-        }
-      } else if (keyCode == RIGHT || key == 'd') {
-        right = true;
-        if ((pos.x + w) < _r) {
-          pos.x += vel.x;
-        }
-      } else if (keyCode == UP || key == 'w') {
-        if ((pos.y-h-(h/3.2)) > _t) {
-          pos.y -= vel.y;
-        }
-      } else if (keyCode == DOWN || key == 's') {
-        if ((pos.y+ h-(h/2.1)) < _b) {
-          pos.y += vel.y;
-        }
+
+    if (leftArrow) {
+      right = false;
+      if ((pos.x - w) > _l) {
+        pos.x -= vel.x;
       }
-    //}
+    }
+    if (rightArrow) {
+      right = true;
+      if ((pos.x + w) < _r) {
+        pos.x += vel.x;
+      }
+    }
+    if (upArrow) {
+      if ((pos.y-h-(h/3.2)) > _t) {
+        pos.y -= vel.y;
+      }
+    }
+    if (downArrow) {
+      if ((pos.y+ h-(h/2.1)) < _b) {
+        pos.y += vel.y;
+      }
+    }
   }
 
-  //shows turtle 
+  //shows turtle
   void display() {
     // sway the legs back and forth
     float legAngle = sin(frameCount * 0.1) * PI / 210;
@@ -124,7 +126,7 @@ class Turtle {
       if (b.outOfBounds) {
         bullets.remove(i);
       }
-    } 
+    }
   }
 
   // increases points gained
