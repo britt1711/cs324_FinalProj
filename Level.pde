@@ -25,7 +25,7 @@ class Level {
   int COINSIZE = 20;
   int binSize = COINSIZE*3;
   // set speed; has to be an even number pls
-  int SPEED = 4;
+  int SPEED = 2;
   int COINPOINTS=10;
   
   int[] dir = {-1,1};
@@ -43,8 +43,8 @@ class Level {
     // create random directions
     PVector bug1dir = new PVector(dir[int(random(0,2))], dir[int(random(0,2))]);
     PVector bug2dir = new PVector(dir[int(random(0,2))], dir[int(random(0,2))]);
-    int lowerRange = _level*SPEED-(SPEED/2);
-    int upperRange = _level*SPEED;
+    int lowerRange = _level*SPEED-(SPEED/2) + 2;
+    int upperRange = _level*SPEED + 2;
     // set bug speeds
     PVector bug1speed = new PVector(bug1dir.x*random(lowerRange,upperRange),bug1dir.y*random(lowerRange,upperRange));
     PVector bug2speed = new PVector(bug2dir.x*random(lowerRange,upperRange),bug2dir.y*random(lowerRange,upperRange));
