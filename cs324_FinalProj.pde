@@ -93,6 +93,7 @@ PrintWriter scoreboard;
 import ddf.minim.*;
 Minim minim;
 AudioPlayer coinSound;
+AudioPlayer dmgSound;
 
 // variables to hold object icons
 Turtle turtleIcon;
@@ -132,8 +133,12 @@ void setup() {
   String filePath = dataPath(
     "coin_collect.mp3"
     );
+  String dmgFilePath = dataPath(
+    "dmg_sound.mp3"
+   );
   minim = new Minim(this);
   coinSound = minim.loadFile(filePath);
+  dmgSound = minim.loadFile(dmgFilePath);
 
   // create a new file in the sketch directory
   scoreboard = createWriter("scoreboard.txt");

@@ -141,6 +141,8 @@ class Level {
     // turtle runs into a bug
     if (dist(turtle.pos.x, turtle.pos.y-(turtle.h/4.2), b.x, b.y) <= (b.bodyLength + turtle.w)) {
       //c.collect();
+      dmgSound.play();
+      dmgSound.rewind();
       return true;
     }
     return false;
