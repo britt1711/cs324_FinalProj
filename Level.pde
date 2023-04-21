@@ -118,6 +118,10 @@ class Level {
     
     // remove life if runs into bug object 1
     if (checkBugCollision(bug1) && turtle.isActive()) {
+      // play sound
+      dmgSound.rewind();
+      dmgSound.play();
+      // restart the timer for deactivation
       turtle.deactivate();
       turtle.startTime = millis();
       // remove a life
@@ -125,8 +129,12 @@ class Level {
     }
     // remove life if runs into bug object 2
     if (checkBugCollision(bug2) && turtle.isActive()) {
+      // play sound
+      dmgSound.rewind();
+      dmgSound.play();
       // remove a life
       turtle.loseLife();
+      // restart the timer for deactivation
       turtle.deactivate();
       turtle.startTime = millis();
     }
@@ -148,9 +156,6 @@ class Level {
   boolean checkBugCollision(Bug b) {
     // turtle runs into a bug
     if (dist(turtle.pos.x, turtle.pos.y-(turtle.h/4.2), b.x, b.y) <= (b.bodyLength + turtle.w)) {
-      //c.collect();
-      dmgSound.play();
-      dmgSound.rewind();
       return true;
     }
     return false;

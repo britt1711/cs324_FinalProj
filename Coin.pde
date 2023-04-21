@@ -23,10 +23,6 @@ class Coin {
     sparkles = new ArrayList<Sparkle>();
     angle = 1.0;
   
-    String filePath = dataPath(
-      "coin_collect.mp3"
-      );
-    //minim = new Minim(this);
     coinSound = sound;
   }
 
