@@ -1,8 +1,7 @@
 //TODO'S FOR EVERYONE
-//brynne: fix turtle buttons and if time allows shitty code to turtle time //DELETE BULLET STUFF
-//kaitlin: fix butterfly from going off screen
+//brynne: fix turtle buttons //DELETE BULLET STUFF
 //jonathan: add sound effects for collision with bug in level
-//SOMEBODY ADD LEVEL BACKGROUNDS
+
 
 
 
@@ -109,17 +108,17 @@ int score;
 
 
 //boolean for turtle movements
-boolean leftArrow, rightArrow, upArrow, downArrow;
+//boolean leftArrow, rightArrow, upArrow, downArrow;
 
 void setup() {
   // set canvas size
   size(1000, 800);
 
-  //set booleans for turtle to false
-  leftArrow = false;
-  rightArrow = false;
-  upArrow = false;
-  downArrow = false;
+  ////set booleans for turtle to false
+  //leftArrow = false;
+  //rightArrow = false;
+  //upArrow = false;
+  //downArrow = false;
 
   // images for the level background
   PImage img1 = loadImage("turtlePond.jpg");
@@ -839,18 +838,18 @@ void keyPressed() {
   }
   // CASE: user is on the game page
   else if (currPage == page[4]) {
-    // TODO: define keystrokes that allow player to move
+
     if (keyCode == LEFT) {
-      leftArrow = true;
+      game.turtle.leftArrow = true;
     }
     if (keyCode == RIGHT) {
-      rightArrow = true;
+      game.turtle.rightArrow = true;
     }
     if (keyCode == UP) {
-      upArrow = true;
+      game.turtle.upArrow = true;
     }
     if (keyCode == DOWN) {
-      downArrow = true;
+      game.turtle.downArrow = true;
     }
   }
   // CASE: user is on the summary page
@@ -911,10 +910,20 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  leftArrow = false;
-  rightArrow = false;
-  upArrow = false;
-  downArrow = false;
+  if (game != null) {
+    if (keyCode == LEFT) {
+      game.turtle.leftArrow = false;
+    }
+    if (keyCode == RIGHT) {
+      game.turtle.rightArrow = false;
+    }
+    if (keyCode == UP) {
+      game.turtle.upArrow = false;
+    }
+    if (keyCode == DOWN) {
+      game.turtle.downArrow = false;
+    }
+  }
 }
 
 // action on buttons occur when mouse is pressed over the button

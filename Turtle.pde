@@ -13,6 +13,9 @@ class Turtle {
   PVector pos, vel;
   PShape shell, nose, legs, circ;
   boolean right;
+  
+  //deals with movements of turtle
+  boolean leftArrow, rightArrow, upArrow, downArrow;
 
   // colors
   color tan = (#F0DE3A);
@@ -41,6 +44,10 @@ class Turtle {
     // initialize bullets array
     bullets = new ArrayList<Bullet>();
     isActive = true;
+    leftArrow = false;
+    rightArrow = false;
+    upArrow = false;
+    downArrow = false;
   }
 
   // function to change the position of the turtle on screen
