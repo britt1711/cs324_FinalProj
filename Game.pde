@@ -18,11 +18,11 @@ class Game {
     left = _l;
     right = _r;
     active = true;
+    sound = _s;
+    // instantiate and build turtle
     turtle = new Turtle(new PVector(0,height/2),50,50,true);
     turtle.buildTurtle();
-    sound = _s;
-    
-    // TODO: Kaitlin to instantiate the level for first level
+    // instantiate the level for first level
     level = new Level(1, top, bottom, left, right, turtle, sound);
   }
   
@@ -34,11 +34,10 @@ class Game {
   // function to move to the next level
   void nextLevel() {
     if (!isOnLastLevel()) {
-      // TODO: Brynne to reset the turtle to middle of screen
-      turtle.changePosition(new PVector(0,height/2));
+      // reset the turtle to middle bottom of screen at start of levels
+      turtle.changePosition(new PVector((right-left)/2,bottom));
       turtle.right=true;
-      
-      // TODO: Kaitlin to increment the new level
+      // increment the new level
       level = new Level(level.levNum + 1, top, bottom, left, right, turtle, sound);
     }
   }

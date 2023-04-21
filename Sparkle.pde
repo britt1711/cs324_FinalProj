@@ -12,8 +12,6 @@ class Sparkle {
     x = x_;
     y = y_;
     radius = radius_;
-    //TODO: change back to white when background is added
-    //c = color(255, 255, random(200, 255)); //white color for sparkles
     c = color(255, 215, 0);
     lifespan = 255;
   }

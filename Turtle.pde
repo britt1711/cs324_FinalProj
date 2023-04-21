@@ -2,20 +2,19 @@
 // File Description: class defines the main player, a turtle object
 
 class Turtle {
-
   //deals with lives and logic of game
   int livesLeft = 5;
   int points = 0;
   float startTime;
   float lifespan = 3000; //amount in miliseconds the turtle is inacrtive after a collision
 
-  
   //deals with appearance of turtle
   float w, h;
   PVector pos, vel;
   PShape shell, nose, legs, circ;
   boolean right;
 
+  // colors
   color tan = (#F0DE3A);
   color green_shell = (#4FD823);
   color white = (#FFFFFF);
@@ -32,7 +31,6 @@ class Turtle {
 
   PShape turtle = createShape(GROUP);
 
-
   Turtle(PVector pos, float w, float h, boolean right) {
     this.pos = pos.copy();
     this.w = w;
@@ -45,32 +43,36 @@ class Turtle {
     isActive = true;
   }
 
+  // function to change the position of the turtle on screen
   void changePosition(PVector _pos) {
     pos = _pos;
   }
   
+  // function to change speed of turtle moving
   void changeSpeed(int speed){
     vel = new PVector(speed, speed);
   }
 
+  // function to check if turtle is active
   boolean isActive(){
     return isActive;
   }
 
-  //change the color of the circle around the turtle if it is hit to red
+  // change the color of the circle around the turtle if it is hit to red
   void deactivate(){
     isActive = false;
     circ.setFill(red_circle);
   }
   
+  // function to reactivate turtle
   void activate(){
     isActive = true;
     circ.setFill(green_circle);
   }
 
-  //moves turtle when player presses keys
+  // moves turtle when player presses keys
   void move(int _t, int _b, int _l, int _r) {
-    if (keyPressed) {
+    //if (keyPressed) {
       if (keyCode == LEFT || key == 'a') {
         right = false;
         if ((pos.x - w) > _l) {
@@ -90,9 +92,8 @@ class Turtle {
           pos.y += vel.y;
         }
       }
-    }
+    //}
   }
-
 
   //shows turtle 
   void display() {

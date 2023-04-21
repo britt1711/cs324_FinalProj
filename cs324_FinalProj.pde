@@ -28,8 +28,6 @@ color yellow = #E3CE62;
 color red = #BF231B;
 color gray = #939496;
 color lightGray = #b7b9b3;
-color cEnemy = #f3959a; // color used for enemy
-color cHero = #fee293; // color used for hero
 color[] colors = {medBlue, lightBlue, darkBlue};
 color purple = #9E79E3;
 color brown = #9B763B;
@@ -176,19 +174,6 @@ void setup() {
 }
 
 void draw() {
-  //TODO: PROBABLY CHANGE THIS BECAUSE I DON'T THINK CURRENT PAGE IS ALWAYS THREE
-  //FOR LOGIC OF THE TURTLE THE TIMER MUST BE IN THE MAIN CLASS
-  for (int i=3; i<8; i++) {
-    if (currPage == page[i]) {
-      if (!game.turtle.isActive()) {
-        if ((millis() - game.turtle.startTime) > game.turtle.lifespan) {
-          game.turtle.activate();
-        }
-      }
-    }
-  }
-
-
   // CASE: on welcome page
   if (currPage == page[0]) {
     displayWelcome();
@@ -208,8 +193,6 @@ void draw() {
   }
   // CASE: on the game page
   else if (currPage == page[4]) {
-
-    //println("Active =", playCountdown.isRunning());
     // update play countdown
     playCountdown.checkActivation(millis());
     // check if paused
@@ -225,6 +208,13 @@ void draw() {
       textAlign(CENTER, CENTER);
       text("Game is Paused", width/2, height/2, width/3, height/3);
     } else {
+      // check for turtle inactive timer
+      if (!game.turtle.isActive()) {
+        if ((millis() - game.turtle.startTime) > game.turtle.lifespan) {
+          game.turtle.activate();
+        }
+      }
+      // display the level
       displayLevel();
     }
     // draw user menu that displays user information
@@ -507,8 +497,6 @@ void displayLevel() {
   if (!game.isPlayerAlive()) {
     currPage = page[5];
   }
-
-  // TODO: run check that if all lives are lost, need to set currPage = page[5];
 }
 
 // describes and draws the Summary
@@ -638,7 +626,6 @@ void displayScoreboard() {
 
   String[] places = {"1st", "2nd", "3rd", "4th", "5th"};
 
-  //TODO: write out the scoreboard text to this page
   // display the top 5 scores to the scoreboard
   fill(medBlue);
   textSize(h3);
@@ -871,7 +858,6 @@ void keyPressed() {
       // move to next page
       currPage = page[7];
       // save the username to the scoreboard file
-      // TODO: update user's score to this
       scoreboard.println(savedUserName + "\t" + score);
       scoreboard.flush();
     }
