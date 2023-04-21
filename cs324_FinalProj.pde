@@ -83,7 +83,6 @@ ButtonRect bEnd;
 ButtonRect bSoundOff;
 ButtonRect bSoundOn;
 
-
 // initialize variables for the userInput for username
 String typing = ""; // defines text being typed
 String savedUserName = ""; // defines saved text
@@ -95,6 +94,11 @@ PrintWriter scoreboard;
 import ddf.minim.*;
 Minim minim;
 AudioPlayer coinSound;
+
+// variables to hold object icons
+Turtle turtleIcon;
+Bug bugIcon;
+Coin coinIcon;
 
 void setup() {
   // set canvas size
@@ -141,6 +145,15 @@ void setup() {
   bEnd = new ButtonRect(4*(width/5), height-50, w, h, "End", colors);
   bSoundOff = new ButtonRect(3*(width/5), height-50, w+40, h, "Sound Off", colors);
   bSoundOn = new ButtonRect(3*(width/5), height-50, w+40, h, "Sound On", colors);
+  
+  // instantiate object icons for game instructions page
+  // define col1 and row1 to align the text for objects
+  int col1 = 120;
+  int row1 = 230;
+  float space = (h3 + (2.75*m));
+  turtleIcon = new Turtle(new PVector(col1+10,row1+space+5), 23,23,true);
+  bugIcon = new Bug(purple, brown, green, new PVector(0,0), col1*floor(1/0.3)+75, floor((row1+(2*space))*(1/0.3)));
+  coinIcon = new Coin(col1+10, row1+(3*space),30,coinSound);
 }
 
 void draw() {
@@ -359,37 +372,27 @@ void displayInstructions() {
   int row1 = 230;
   float space = (h3 + (2.75*m));
 
-  // TODO: change the game objects to the ones we will be using
   // draw game objects
   textAlign(LEFT, CENTER);
   // user object
-  //Turtle(PVector pos, float w, float h, boolean right) {
-  Turtle turtleIcon = new Turtle(new PVector(col1+10,row1+space+5), 23,23,true);
   turtleIcon.buildTurtle();
   turtleIcon.display();
-
-
   fill(medBlue);
   textSize(h3);
   text("You, the player", col1+space, row1+space);
-  // enemy object
-
+  
+  // bug object
   pushMatrix();
   scale(0.3);
-  Bug bugIcon = new Bug(purple, brown, green, new PVector(0,0), col1*floor(1/0.3)+75, floor((row1+(2*space))*(1/0.3)));
   bugIcon.display();
   popMatrix();
-
   textAlign(LEFT, CENTER);
   fill(medBlue);
   textSize(h3);
   text("Bugs, be sure to avoid them!", col1+space, row1+(2*space));
+  
   // coin object
-  // TODO: create and display the coin object here. write it around the position (col1, row1+(3*space))
-  //float x, float y, int s, AudioPlayer sound
-  Coin coinIcon = new Coin(col1+10, row1+(3*space),30,coinSound);
   coinIcon.display();
-
   textAlign(LEFT, CENTER);
   fill(medBlue);
   textSize(h3);

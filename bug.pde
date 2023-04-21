@@ -75,7 +75,6 @@ class Bug {
   void move() {
     x += direction.x;
     y += direction.y;
-    
   }
   
   void fly(){

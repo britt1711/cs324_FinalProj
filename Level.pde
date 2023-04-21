@@ -101,23 +101,21 @@ class Level {
         // add a value to the points
         turtle.plusPoint(COINPOINTS);
       }
-
       // remove coin if collected
       if (c.isCollected()) {
         coins.remove(i);
       }
     }
     
-    // remove life if runs into bug object
+    // remove life if runs into bug object 1
     if (checkBugCollision(bug1) && turtle.isActive()) {
       turtle.deactivate();
       turtle.startTime = millis();
       // remove a life
       turtle.loseLife();
     }
-        // remove life if runs into bug object
+    // remove life if runs into bug object 2
     if (checkBugCollision(bug2) && turtle.isActive()) {
-
       // remove a life
       turtle.loseLife();
       turtle.deactivate();
@@ -136,8 +134,6 @@ class Level {
     }
     return false;
   }
-
-
 
   // function to check if player runs into a bug object
   boolean checkBugCollision(Bug b) {
