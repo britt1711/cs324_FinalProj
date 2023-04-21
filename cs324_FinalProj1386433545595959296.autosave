@@ -1,9 +1,6 @@
 //TODO'S FOR EVERYONE
-//brynne: fix turtle buttons //DELETE BULLET STUFF
+//brynne: fix turtle buttons and if time allows shitty code to turtle time //DELETE BULLET STUFF
 //jonathan: add sound effects for collision with bug in level
-
-
-
 
 // Authors: Brittany Given, Brynne Jackson, Jonathan Liu, Kailtin Shin
 // Assignment: Final Project
@@ -93,7 +90,6 @@ PrintWriter scoreboard;
 import ddf.minim.*;
 Minim minim;
 AudioPlayer coinSound;
-AudioPlayer dmgSound;
 
 // variables to hold object icons
 Turtle turtleIcon;
@@ -107,19 +103,18 @@ PImage[] imgs;
 int [] playerStats;
 int score;
 
-
 //boolean for turtle movements
-//boolean leftArrow, rightArrow, upArrow, downArrow;
+boolean leftArrow, rightArrow, upArrow, downArrow;
 
 void setup() {
   // set canvas size
   size(1000, 800);
 
-  ////set booleans for turtle to false
-  //leftArrow = false;
-  //rightArrow = false;
-  //upArrow = false;
-  //downArrow = false;
+  //set booleans for turtle to false
+  leftArrow = false;
+  rightArrow = false;
+  upArrow = false;
+  downArrow = false;
 
   // images for the level background
   PImage img1 = loadImage("turtlePond.jpg");
@@ -133,12 +128,8 @@ void setup() {
   String filePath = dataPath(
     "coin_collect.mp3"
     );
-  String dmgFilePath = dataPath(
-    "dmg_sound.mp3"
-   );
   minim = new Minim(this);
   coinSound = minim.loadFile(filePath);
-  dmgSound = minim.loadFile(dmgFilePath);
 
   // create a new file in the sketch directory
   scoreboard = createWriter("scoreboard.txt");
@@ -843,17 +834,18 @@ void keyPressed() {
   }
   // CASE: user is on the game page
   else if (currPage == page[4]) {
+    // TODO: define keystrokes that allow player to move
     if (keyCode == LEFT) {
-      game.turtle.leftArrow = true;
+      leftArrow = true;
     }
     if (keyCode == RIGHT) {
-      game.turtle.rightArrow = true;
+      rightArrow = true;
     }
     if (keyCode == UP) {
-      game.turtle.upArrow = true;
+      upArrow = true;
     }
     if (keyCode == DOWN) {
-      game.turtle.downArrow = true;
+      downArrow = true;
     }
   }
   // CASE: user is on the summary page
@@ -914,20 +906,18 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  if (game != null) {
-    if (keyCode == LEFT) {
-      game.turtle.leftArrow = false;
+  if (keyCode == LEFT) {
+      leftArrow = false;
     }
     if (keyCode == RIGHT) {
-      game.turtle.rightArrow = false;
+      rightArrow = false;
     }
     if (keyCode == UP) {
-      game.turtle.upArrow = false;
+      upArrow = false;
     }
     if (keyCode == DOWN) {
-      game.turtle.downArrow = false;
+      downArrow = false;
     }
-  }
 }
 
 // action on buttons occur when mouse is pressed over the button

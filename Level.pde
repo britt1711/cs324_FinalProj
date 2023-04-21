@@ -23,10 +23,12 @@ class Level {
 
   // variables that can be changed by developer
   int COINSIZE = 20;
-  int binSize = COINSIZE*5;
+  int binSize = COINSIZE*3;
   // set speed; has to be an even number pls
   int SPEED = 4;
   int COINPOINTS=10;
+  
+  int[] dir = {-1,1};
 
   Level(int _level, int t, int b, int l, int r, Turtle _turtle, AudioPlayer sound) {
     levNum = _level;
@@ -38,8 +40,14 @@ class Level {
     // update the speed of the turtle
     turtle.changeSpeed((_level+1)*floor((SPEED-(SPEED/3))));
     coins = new ArrayList<Coin>();
-    PVector bug1speed = new PVector(random(-_level*(SPEED)-(SPEED/2),_level*SPEED),random(-_level*(SPEED)-(SPEED/2),_level*SPEED));
-    PVector bug2speed = new PVector(random(-_level*(SPEED)-(SPEED/2),_level*SPEED),random(-_level*(SPEED)-(SPEED/2),_level*SPEED));
+    // create random directions
+    PVector bug1dir = new PVector(dir[int(random(0,2))], dir[int(random(0,2))]);
+    PVector bug2dir = new PVector(dir[int(random(0,2))], dir[int(random(0,2))]);
+    int lowerRange = _level*SPEED-(SPEED/2);
+    int upperRange = _level*SPEED;
+    // set bug speeds
+    PVector bug1speed = new PVector(bug1dir.x*random(lowerRange,upperRange),bug1dir.y*random(lowerRange,upperRange));
+    PVector bug2speed = new PVector(bug2dir.x*random(lowerRange,upperRange),bug2dir.y*random(lowerRange,upperRange));
     bug1 = new Bug(yellow, gray, red, bug1speed, 500, 250);
     bug2 = new Bug(purple, brown, green, bug2speed, 250, 250);
     // code to decide placement of coins
