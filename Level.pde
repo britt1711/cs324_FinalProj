@@ -77,7 +77,6 @@ class Level {
       Coin c = coins.get(i);
       c.display();
     }
-    println(coins.size());
     // display the bugs
     bug1.display();
     bug2.display();

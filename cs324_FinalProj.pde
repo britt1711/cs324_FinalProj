@@ -157,7 +157,7 @@ void setup() {
   float space = (h3 + (2.75*m));
   turtleIcon = new Turtle(new PVector(col1+10,row1+space+5), 23,23,true);
   bugIcon = new Bug(purple, brown, green, new PVector(0,0), col1*floor(1/0.3)+75, floor((row1+(2*space))*(1/0.3)));
-  coinIcon = new Coin(col1+10, row1+(3*space),30,coinSound);
+  coinIcon = new Coin(col1+10, row1+(3*space),20,coinSound);
 }
 
 void draw() {
@@ -219,8 +219,6 @@ void draw() {
 
     // if playCountdown is 0, then move to next page
     if (playCountdown.checkActivation(millis())) {
-      // TODO: delete below line and uncomment line after
-      //currPage = page[5];
       // have not made it through all levels yet
       if (!game.isOnLastLevel()) {
         game.nextLevel();
@@ -365,7 +363,7 @@ void displayInstructions() {
   text("Game Instructions", width/2, 150);
 
   // display legend of objects
-  fill(medBlue);
+  fill(darkBlue);
   textSize(h2);
   textAlign(LEFT, TOP);
   rectMode(CENTER);
@@ -403,7 +401,7 @@ void displayInstructions() {
   text("Coins, collect by moving player over them!", col1+space, row1+(3*space));
 
   // display key strokes to move
-  fill(medBlue);
+  fill(darkBlue);
   textSize(h2);
   textAlign(LEFT, TOP);
   rectMode(CENTER);
@@ -489,7 +487,11 @@ void displayLevel() {
   // display game
   game.display();
 
-
+  println(game.isPlayerAlive());
+  // when player dies, move to game summary page
+  if (!game.isPlayerAlive()) {
+    currPage = page[5];
+  }
 
   // TODO: run check that if all lives are lost, need to set currPage = page[5];
 }
@@ -502,22 +504,38 @@ void displaySummary() {
   textSize(h1);
   textAlign(CENTER, BOTTOM);
   text("Game Summary", width/2, 150);
-
-  // TODO: write out game summary after level and game classes are done here
-  // player stats - points, lives
+  
+  // get player stats - points, lives
   playerStats = game.getPlayerStats();
-  // player score
+  // get player score
   score = game.getPlayerScore();
   
+  // define rows to keep track of text placement
+  int row = 240;
+  
+  // display message based on if made it thru all levels or not
+  fill(medBlue);
+  textSize(h3);
+  textAlign(CENTER, TOP);
+  rectMode(CENTER);
+  // happy message if made it thru all levels
+  if (game.isPlayerAlive()) {
+    text("Yay! You've made it as far as the forty acres stretches.", width/2, row, 800, 80);
+  } 
+  // sad message if lost all lives
+  else {
+    text("Oh No! Looks like the bugs scared you away and you had to go home early...", width/2, row, 800, 80);
+  }
+
   // define columns to keep track of text placement
   int col1 = width/2-300;
   int col2 = width/2;
   int col3 = width/2+300;
   // define rows to keep track of text placement
-  int row = 240;
+  row = height/2;
 
   // display subheaders
-  fill(medBlue);
+  fill(darkBlue);
   textSize(h2);
   textAlign(CENTER, BOTTOM);
   text("Points", col1, row);
@@ -526,6 +544,7 @@ void displaySummary() {
   
   // display values
   row += 50;
+  fill(medBlue);
   text(playerStats[0], col1, row);
   text(playerStats[1], col2, row);
   text(score, col3, row);
@@ -589,7 +608,7 @@ void displayScoreboard() {
   int row = 240;
 
   // display subheaders
-  fill(medBlue);
+  fill(darkBlue);
   textSize(h2);
   textAlign(CENTER, BOTTOM);
   text("Place", col1, row);
