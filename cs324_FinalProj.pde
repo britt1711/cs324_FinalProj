@@ -9,7 +9,7 @@
 
 // Authors: Brittany Given, Brynne Jackson, Jonathan Liu, Kailtin Shin
 // Assignment: Final Project
-// Date: 4/16/2023
+// Date: 4/24/2023
 /* File Description:
  This program runs our game "Capture the Coin!", where the user has to
  navigate around enemies while collecting points. The user advances to

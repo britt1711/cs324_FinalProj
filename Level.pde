@@ -1,3 +1,6 @@
+// Author: Brittany Given, Brynne Jackson, Kaitlin Shin, Jonathan Liu
+// File Description: class defines the logic for creating levels
+
 class Level {
   int top;
   int left;

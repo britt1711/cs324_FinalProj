@@ -1,3 +1,6 @@
+// Author: Brynne Jackson
+// File Description: class defines a bullet object for player; potential powerup
+
 class Bullet {
   float x, y, speed;
   int r;

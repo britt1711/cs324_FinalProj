@@ -1,4 +1,3 @@
-// Group #: 11
 // Author: Brittany Given
 /* File Description: 
 button class checks when mouse is over it and when mouse clicks on it

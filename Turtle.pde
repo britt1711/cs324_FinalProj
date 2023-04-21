@@ -1,3 +1,6 @@
+// Author: Brynne Jackson
+// File Description: class defines the main player, a turtle object
+
 class Turtle {
 
   //deals with lives and logic of game

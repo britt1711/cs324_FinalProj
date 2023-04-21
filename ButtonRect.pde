@@ -1,4 +1,3 @@
-// Group #: 11
 // Author: Brittany Given
 // File Description: class defines a button that is a rectangle
 

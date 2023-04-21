@@ -1,3 +1,6 @@
+// Author: Jonathan Liu
+// File Description: class defines a coin
+
 class Coin {
   PVector pos;
   int size;

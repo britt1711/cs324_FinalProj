@@ -1,3 +1,6 @@
+// Author: Kaitlin Shin
+// File Description: class defines enemy objects, which are bugs
+
 class Bug {
   float x;
   float y;

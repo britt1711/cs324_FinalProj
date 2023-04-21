@@ -1,4 +1,5 @@
-// defines the game class
+// Author: Brittany Given
+// File Description: defines the game class
 
 class Game {
   int top;
