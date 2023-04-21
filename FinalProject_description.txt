@@ -1,0 +1,169 @@
+****
+**** EXPLANATION OF INTENDED GAME
+****
+
+
+Our game, "Capture the Coin" is a game of capturing coins while avoiding enemy (bug) objects. The goal is to get the highest score possible, which is done by surviving all the written levels and not losing lives.
+
+
+Requirement #1 - Keyboard Interactivity:
+- Up arrow moves player object up the screen
+- Down arrow moves the player object down the screen
+- Left arrow moves the player object towards the left of the screen
+- Right arrow moves the player object towards the right of the screen
+
+
+Requirement #2 - Class Object Animation
+- Turtle's legs move as the user moves the turtle character around the screen
+- Butterfly's wings flap as it moves around the screen
+- Coin objects spin in place while emitting a "sparkle" effect
+
+
+Requirement #3 - Multiple GUI Systems
+- Start Screen
+- Screen with background Info for game
+- Screen with instructions for game
+- Level countdown screen
+- Game play screen
+- Game summary screen
+- Screen to create a username
+- Scoreboard screen
+
+
+Requirement #4 - Data Input/Output:
+- Certain keys allow user to navigate through the pages in the program
+- Request for user to create a username
+- Output of scores and usernames on the scoreboard
+
+
+Requirement #5 - Sound:
+- sound for when turtle collects a coin
+- sound for when turtle runs into a bug
+
+
+The Win/lose conditions for our game are:
+- Arbitrarily, we set winning the game as passing the 5th level
+- Player loses once all lives are lost before the 5th level
+- Goal is to have the highest possible points by the end of the game
+
+
+****
+**** EXPLANATION OF CLASSES
+****
+
+
+* Button Class *
+
+
+This class defines the basic functionality of a button, including noting when the button has been selected or is being hovered over.
+
+
+* ButtonRect Class *
+
+
+This class extends the Button class to form a button of a rectangle shape.
+
+
+* Timer Class *
+
+
+This class defines Timer objects in order to have different objects run on different "clocks" without having to update the frameRate(). The class can return the elapsed time in number of seconds, which is heavily used throughout the program.
+
+
+* Turtle Class *
+
+
+This class defines the Turtle object, which is the user's character in the game. The player has a variable to track its lives left, points gained, and position on the screen.
+
+
+* Bug Class *
+
+
+This class defines the enemy objects of the game, which are Bugs. When the player runs into these objects, the player loses a life.
+
+
+* Coin Class *
+
+
+This class defines the Coin objects, which are objects the player wants to collect to get points in the game. The coin is animated to spin and emit "sparkles", called from the Sparkle Class.
+
+
+* Sparkle Class *
+
+
+This class defines the sparkle that is animated in the Coin class.
+
+
+* Level Class *
+
+
+This class defines the logic behind the objects interacting within each level. There is a speed that the turtle and bugs move at, which is increased as the levels increment. This class defines the amount of coins that appear within each level and where they appear.
+
+
+* Game Class *
+
+
+This class calls the levels class and returns general information relating to the game statistics once the game is over.
+
+
+****
+**** UNEXPECTED CHALLENGES
+****
+
+
+For Brittany:
+
+
+There weren't many changes that we weren't able to overcome.
+
+
+For Brynne:
+
+
+...
+
+
+For Jonathan:
+
+
+...
+
+
+For Kaitlin:
+
+
+...
+
+
+****
+**** OTHER INTERESTING FEATURES/EXTRA CREDIT
+****
+
+
+As part of Brittany's contribution, our program is very intuitive for the user to understand right after running the program. All applicable keyboard or mouse calls are noted on each page as the user moves through the program. Taking the concept of from our "Hands-On" relating to novelVisualization, she has included a background for the game that is written between margins of the screen, to further entice the player and theme of the game. There is also an instructions page on how to play. Timers have been utilized all throughout the game in order to have the game be more appealing (such as the blinking text at the bottom of some pages) as well as the countdown before each new level and the countdown within each level itself.
+
+
+
+
+
+
+
+
+****
+**** MEMBER RESPONSIBILITIES
+****
+
+
+All team members contributed to the Level class, as this is when the objects were combined and the logic applied to how we wanted the objects to interact.
+
+
+Brittany worked on all classes relating to the GUI and Game class. The GUI includes the bulk of the cs324_FinalProj file, Button class, ButtonRect class, and Timer class.
+
+
+Brynne worked on the Turtle class, making any outside calls related to this class within the main file as well.
+
+
+Jonathan worked on the Coin and Sparkle classes, making any outside calls related to these classes within the main file as well.
+
+
+Kaitlin worked on the Bug class, making any outside calls related to this class within the main file as well.

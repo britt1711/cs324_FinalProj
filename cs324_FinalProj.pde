@@ -1,10 +1,3 @@
-//TODO'S FOR EVERYONE
-//brynne: fix turtle buttons //DELETE BULLET STUFF
-//jonathan: add sound effects for collision with bug in level
-
-
-
-
 // Authors: Brittany Given, Brynne Jackson, Jonathan Liu, Kailtin Shin
 // Assignment: Final Project
 // Date: 4/24/2023
@@ -13,7 +6,7 @@
  navigate around enemies while collecting points. The user advances to
  new levels where the enemies move faster, resulting in the
  user having to move faster to not get caught by enemies.
- */
+*/
 
 // define colors
 color black = #000000;
