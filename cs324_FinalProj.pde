@@ -107,19 +107,9 @@ PImage[] imgs;
 int [] playerStats;
 int score;
 
-
-//boolean for turtle movements
-//boolean leftArrow, rightArrow, upArrow, downArrow;
-
 void setup() {
   // set canvas size
   size(1000, 800);
-
-  ////set booleans for turtle to false
-  //leftArrow = false;
-  //rightArrow = false;
-  //upArrow = false;
-  //downArrow = false;
 
   // images for the level background
   PImage img1 = loadImage("turtlePond.jpg");
@@ -172,7 +162,7 @@ void setup() {
   int h = 50;
   bPause = new ButtonRect(width/5, height-50, w, h, "Pause", colors);
   bCont = new ButtonRect(width/5, height-50, w+40, h, "Continue", colors);
-  bRestart = new ButtonRect(2*(width/5), height-50, w*3, h, "Restart from Level 1", colors);
+  bRestart = new ButtonRect(2*(width/5), height-50, w+140, h, "Restart from Level 1", colors);
   bEnd = new ButtonRect(4*(width/5), height-50, w, h, "End", colors);
   bSoundOff = new ButtonRect(3*(width/5), height-50, w+40, h, "Sound Off", colors);
   bSoundOn = new ButtonRect(3*(width/5), height-50, w+40, h, "Sound On", colors);
