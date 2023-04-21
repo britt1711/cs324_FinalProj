@@ -508,6 +508,27 @@ void displaySummary() {
   playerStats = game.getPlayerStats();
   // player score
   score = game.getPlayerScore();
+  
+  // define columns to keep track of text placement
+  int col1 = width/2-300;
+  int col2 = width/2;
+  int col3 = width/2+300;
+  // define rows to keep track of text placement
+  int row = 240;
+
+  // display subheaders
+  fill(medBlue);
+  textSize(h2);
+  textAlign(CENTER, BOTTOM);
+  text("Points", col1, row);
+  text("Lives Left", col2, row);
+  text("Total Score", col3, row);
+  
+  // display values
+  row += 50;
+  text(playerStats[0], col1, row);
+  text(playerStats[1], col2, row);
+  text(score, col3, row);
 
   // display instructions to move to next page, which is the scoreboard, or back to the home page
   fill(gray);
@@ -773,7 +794,7 @@ void keyPressed() {
   // if on the game instructions page, any key allows user to move to next page, which is the level intro
   else if (currPage == page[2] && keyPressed) {
     currPage = page[3];
-    // TODO: instantiate a new game
+    // instantiate a new game
     game = new Game(100, height-100, 0, width, coinSound);
     // reset the level countdown
     levelCountdown.reset(millis());
@@ -863,6 +884,9 @@ void mousePressed() {
     game = new Game(100, height-100, 0, width, coinSound);
     currPage = page[3];
     levelCountdown.reset(millis());
+    // reset level timer
+    playCountdown.cont();
+    playCountdown.reset(millis());
   }
   if (bEnd.isSelected()) {
     bEnd.isSelected();
