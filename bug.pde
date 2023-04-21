@@ -25,7 +25,6 @@ class Bug {
     y = _y;
   }
   
-  
   void display() {
     if(x>screenWidth || x < 0){
       direction.x *= -1;
