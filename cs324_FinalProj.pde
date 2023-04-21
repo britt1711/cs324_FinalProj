@@ -100,6 +100,10 @@ Turtle turtleIcon;
 Bug bugIcon;
 Coin coinIcon;
 
+// variables to hold player stats
+int [] playerStats;
+int score;
+
 void setup() {
   // set canvas size
   size(1000, 800);
@@ -500,9 +504,10 @@ void displaySummary() {
   text("Game Summary", width/2, 150);
 
   // TODO: write out game summary after level and game classes are done here
-
-
-
+  // player stats - points, lives
+  playerStats = game.getPlayerStats();
+  // player score
+  score = game.getPlayerScore();
 
   // display instructions to move to next page, which is the scoreboard, or back to the home page
   fill(gray);
@@ -806,7 +811,7 @@ void keyPressed() {
       currPage = page[7];
       // save the username to the scoreboard file
       // TODO: update user's score to this
-      scoreboard.println(savedUserName + "\t" + "SCORE #");
+      scoreboard.println(savedUserName + "\t" + score);
       scoreboard.flush();
     }
     // other keys go into writing out the user's username
@@ -854,7 +859,7 @@ void mousePressed() {
   }
   if (bRestart.isSelected()) {
     bRestart.isSelected();
-    // TODO: instantiate a new game
+    // instantiate a new game when restarted
     game = new Game(100, height-100, 0, width, coinSound);
     currPage = page[3];
     levelCountdown.reset(millis());

@@ -43,7 +43,6 @@ class Game {
     }
   }
   
-  
   // function to see if we move to next level
   boolean isOnLastLevel() {
     if (level.levNum < maxLevels) {

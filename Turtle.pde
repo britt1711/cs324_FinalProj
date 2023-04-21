@@ -123,9 +123,7 @@ class Turtle {
       if (b.outOfBounds) {
         bullets.remove(i);
       }
-    }
-    
-    
+    } 
   }
 
   // increases points gained
@@ -150,9 +148,6 @@ class Turtle {
     return (livesLeft > 0);
   }
 
-
-
-
   //OPTIONAL BULLET CLASS .... POSSIBLY ADD AFTER COLLECTS CERTAIN AMOUNT OF COINS?
   void shoot() {
     float bulletX, bulletY;
@@ -176,10 +171,6 @@ class Turtle {
       shot = false; // reset shot to false when space bar is not pressed
     }
   }
-  
-  
-  
-  
 
   //only build turtle once in setup
   void buildTurtle() {
